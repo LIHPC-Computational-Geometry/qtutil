@@ -8,6 +8,7 @@ find_package (QtUtil REQUIRED)
 add_executable(test_link main.cpp)
 
 message(STATUS "INCLUDE=${QtUtil_INCLUDE_DIR} LIB=${QtUtil_LIB_DIR}")
+target_include_directories(${PROJECT_NAME} PRIVATE ${QtUtil_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE QtUtil)
 
 enable_testing()
