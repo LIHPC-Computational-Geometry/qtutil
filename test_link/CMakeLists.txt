@@ -3,7 +3,7 @@ project(test_link)
 
 set(CMAKE_CXX_STANDARD 14)
 
-find_package (Qt5Widgets REQUIRED NO_CMAKE_SYSTEM_PATH)
+find_package (QtUtil REQUIRED)
 
 add_executable(test_link main.cpp)
 
