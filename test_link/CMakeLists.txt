@@ -3,6 +3,7 @@ project(test_link)
 
 set(CMAKE_CXX_STANDARD 14)
 
+find_package (TkUtil REQUIRED)
 find_package (QtUtil REQUIRED)
 
 add_executable(test_link main.cpp)
