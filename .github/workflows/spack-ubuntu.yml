@@ -39,13 +39,13 @@ jobs:
         run: |
           source /spack/share/spack/setup-env.sh 
           spack env activate meshing-env
-          spack add tkutil
+          spack add qtutil
           # we use GITHUB_WORKSPACE instead of github.Workspace because in containers it
           # seems to be incorrect (see https://github.com/actions/runner/issues/2058)
-          spack develop -p $GITHUB_WORKSPACE --no-clone tkutil@5.7.8
+          spack develop -p $GITHUB_WORKSPACE --no-clone qtutil@5.7.8
           spack install --no-checksum
           # now we build using cmake with spack provided build variables
-          spack load --only dependencies --sh tkutil > spack_env_file.sh
+          spack load --only dependencies --sh qtutil > spack_env_file.sh
           source spack_env_file.sh
           cmake -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -S . -B build
           cmake --build build
@@ -56,7 +56,7 @@ jobs:
         run: |
           source /spack/share/spack/setup-env.sh
           spack env activate meshing-env
-          spack load tkutil
+          spack load qtutil
           cd test_link/
           cmake -S . -B build_exe
           cmake --build build_exe
