@@ -3,7 +3,6 @@
 #include <QtUtil/QtUtilInfos.h>
 
 int main() {
-    QtUtilInfos qtutil_infos;
-    std::cout << "Version " << qtutil_infos.getVersion() << std::endl;
+    std::cout << "Version " << QtUtilInfos::getVersion().getMajor() << std::endl;
     return 0;
 }
