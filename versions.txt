@@ -1,13 +1,31 @@
+Version 6.2.0 : 21/06/23
+===============
+
+Sortie du projet GUIToolkits.
+
+
+Version 6.1.0 : 31/03/23
+===============
+
+Portage GitHub environnement podman/spack/tests CI.
+
+
+Version 6.0.0 : 10/01/23
+===============
+
+IntÈgration au projet GUIToolkits.
+
+
 Version 5.7.8 : 25/11/22
 ===============
 
-Un peu de nettoyage (hors sources).
+Suppression rÈpertoire module.
 
 
 Version 5.7.7 : 15/02/22
 ===============
 
-Retouche gestion des d√©pendances.
+Retouche gestion des dÈpendances.
 
 
 Version 5.7.6 : 09/02/22
@@ -19,14 +37,14 @@ CMakeLists.txt : remplacement de NO_DEFAULT_PATH par NO_CMAKE_SYSTEM_PATH pour Q
 Version 5.7.5 : 04/11/21
 ===============
 
-Portage RHx86_64, retouches cmake pour interdire de chercher Qt dans les r√©pertoires syst√©mes
+Portage RHx86_64, retouches cmake pour interdire de chercher Qt dans les rÈpertoires systËmes
 (=> find_package (Qt5Widgets 5 REQUIRED NO_DEFAULT_PATH) ...)
 
 
 Version 5.7.4 : 10/09/21
 ===============
 
-Suppression de mini gros-mots et de balises EXPURGE.
+Divers nettoyage.
 
 
 Version 5.7.3 : 24/08/21
@@ -35,94 +53,93 @@ Version 5.7.3 : 24/08/21
 Suppression des noms de services et laboratoires.
 
 
-Version 5.7.2 : 21/12/20 R√©visions svn 529/530
+Version 5.7.2 : 21/12/20 RÈvisions svn 529/530
 ===============
 
 Retouche mineure QtUtil/CMakeLists.txt
 
 
-Version 5.7.1 : 14/12/20 R√©visions svn 527/528
+Version 5.7.1 : 14/12/20 RÈvisions svn 527/528
 ===============
 
 Retouche mineure CMakeLists.txt racine
 
 
-Version 5.7.0 : 03/11/20 R√©visions svn 525/526
+Version 5.7.0 : 03/11/20 RÈvisions svn 525/526
 ===============
 
-Retouches mineures des CMakeLists.txt relatives √© l'utilisation de Qt.
+Retouches mineures des CMakeLists.txt relatives ‡ l'utilisation de Qt.
 
-Utilisation possible de QtWebKit. Par d√©faut, les classes QtWebBrowser et QtHelpWindow utilisent l'API Qt5WebEngine
-reposant sur chromium. En son absence QtUtil se rabat si possible sur QtWebKit, et, √© d√©faut, utilise la classe QWebBrowser.
+Utilisation possible de QtWebKit. Par dÈfaut, les classes QtWebBrowser et QtHelpWindow utilisent l'API Qt5WebEngine
+reposant sur chromium. En son absence QtUtil se rabat si possible sur QtWebKit, et, ‡ dÈfaut, utilise la classe QWebBrowser.
 
-Il est possible d'imposer l'API utilis√©e via les options cmake suivantes :
-- -DUSE_QT_WEB_ENGINE:BOOL=ON	: utilisation de l'API Qt avec moteur chromium (solution la plus √©volu√©e mais pas la plus simple √© installer)
-- -DUSE_QT_WEBKIT:BOOL=ON		: utilisation de l'ancienne API Qt (< Qt 5.6) fork√©e et disponible sous license GPL v 2.1 sur internet (https://github.com/qt/qtwebkit)
-- -DUSE_QT_TEXT_BROWSER:BOOL=ON	: utilisation du browser Qt (solution la moins √©volu√©e)
+Il est possible d'imposer l'API utilisÈe via les options cmake suivantes :
+- -DUSE_QT_WEB_ENGINE:BOOL=ON	: utilisation de l'API Qt avec moteur chromium (solution la plus ÈvoluÈe mais pas la plus simple ‡ installer)
+- -DUSE_QT_WEBKIT:BOOL=ON		: utilisation de l'ancienne API Qt (< Qt 5.6) forkÈe et disponible sous license GPL v 2.1 sur internet (https://github.com/qt/qtwebkit)
+- -DUSE_QT_TEXT_BROWSER:BOOL=ON	: utilisation du browser Qt (solution la moins ÈvoluÈe)
 
 
-Version 5.6.0 : 23/09/20 R√©visions svn 522/523
+Version 5.6.0 : 23/09/20 RÈvisions svn 522/523
 ===============
 
-Possibilit√© de s'affranchir de QtWebEngine en transmettant √© cmake la directive -DUSE_QT_TEXT_BROWSER:BOOL=ON.
-En l'absence de directive le CMakeLists.txt est configur√© de mani√©re telle que cmake essaie de trouver
-QtWebEngine. En cas de succ√©s il le prend, sinon il se rabat sur l'impl√©mentation avec QtTextBrowser.
-Le code QtWebKit est laiss√© mais cette API n'est plus livr√©e avec Qt depuis la version 5.6.0. QtWebKit
-est disponible en opensource sur le web mais sa compilation ne semble pas gagn√©e √© tous les coups ...
+PossibilitÈ de s'affranchir de QtWebEngine en transmettant ‡ cmake la directive -DUSE_QT_TEXT_BROWSER:BOOL=ON.
+En l'absence de directive le CMakeLists.txt est configurÈ de maniËre telle que cmake essaie de trouver
+QtWebEngine. En cas de succËs il le prend, sinon il se rabat sur l'implÈmentation avec QtTextBrowser.
+Le code QtWebKit est laissÈ mais cette API n'est plus livrÈe avec Qt depuis la version 5.6.0. QtWebKit
+est disponible en opensource sur le web mais sa compilation ne semble pas gagnÈe ‡ tous les coups ...
 
-M√©thode QtUtilInfos::getDetailedVersion ( ).
+MÈthode QtUtilInfos::getDetailedVersion ( ).
 
 
-Version 5.5.0 : 11/09/20 R√©visions svn 518/519
+Version 5.5.0 : 11/09/20 RÈvisions svn 518/519
 ===============
 
 Classe QtFileDialogUtilities
 Fichier QtErrorManagement.h
 
 
-Version 5.4.4 : 22/07/20 R√©visions svn 516/517
+Version 5.4.4 : 22/07/20 RÈvisions svn 516/517
 ===============
 
 v 0.8.0 de cmake/workarounds.cmake (LC_ALL=C)
-Prise en compte dans le CMakeLists.txt de QtUtil de -DUSE_QT_WEBENGINE. Corrige le bogue o√© la
-gestion des pages web √©tait moins bonne.
+Prise en compte dans le CMakeLists.txt de QtUtil de -DUSE_QT_WEBENGINE. Corrige le bogue o˘ la
+gestion des pages web Ètait moins bonne.
 
 
-Version 5.4.3 : 15/07/20 R√©visions svn 513/514
+Version 5.4.3 : 15/07/20 RÈvisions svn 513/514
 ===============
 
-- Ajout -DNDEBUG √© la compilation en mode non debug.
-- Retouches fichiers cmake relatives aux droits des fichiers install√©s (fonction INSTALL).
+- Ajout -DNDEBUG ‡ la compilation en mode non debug.
+- Retouches fichiers cmake relatives aux droits des fichiers installÈs (fonction INSTALL).
 
 
-Version 5.4.2 : 25/06/20 R√©visions svn 510/511
-===============
-
-Petits correctifs pour import/export.
-
-
-Version 5.4.1 : 08/06/20 R√©visions svn 506/507
+Version 5.4.2 : 25/06/20 RÈvisions svn 510/511
 ===============
 
 Petits correctifs pour import/export.
-cmake/common.cmake : ajout √© CMAKE_CXX_FLAGS de la variable EXTRA_CXX_FLAGS √©ventuellement transmise en argument
+
+
+Version 5.4.1 : 08/06/20 RÈvisions svn 506/507
+===============
+
+Petits correctifs pour import/export.
+cmake/common.cmake : ajout ‡ CMAKE_CXX_FLAGS de la variable EXTRA_CXX_FLAGS Èventuellement transmise en argument
 de cmake.
 
 
-Version 5.4.0 : 04/06/20 R√©visions svn 504/505
+Version 5.4.0 : 04/06/20 RÈvisions svn 504/505
 ===============
 
-Fin r√©int√©gration en environnement CEA suite confinement covid-19.
-Proc√©dure d'exportation ouverte des sources : cible export avec script export.sh (r√©alisation d'un tarball filtr√©,
-sans gros mots, reposant sur la commande expurge r√©alis√©e √© cet effet et sur la commande tar).
-cmake/workaround.cmake utilise maintenant la commande lsb_release -d √© la place du tandem uname/commande locale. A
+Fin rÈintÈgration en environnement CEA suite confinement covid-19.
+ProcÈdure d'exportation ouverte des sources : cible export avec script export.sh.
+cmake/workaround.cmake utilise maintenant la commande lsb_release -d ‡ la place du tandem uname/commande locale. A
 finaliser sur calculateur.
 
 
 Version 5.3.0 : 04/04/20
 ===============
 
-D√©placement des en-t√©tes dans le r√©pertoire QtUtil
+DÈplacement des en-tÍtes dans le rÈpertoire QtUtil
 TkUtil v 5.4.0
 
 
@@ -134,40 +151,40 @@ Portage g++ v 7.5.0
 auto_ptr -> unique_ptr
 
 
-Version 5.1.0 : 18/02/20. R√©visions svn 496
+Version 5.1.0 : 18/02/20. RÈvisions svn 496
 ===============
 
-- Retouches compatibilit√© (SameMinorVersion -> SameMajorVersion)
+- Retouches compatibilitÈ (SameMinorVersion -> SameMajorVersion)
 
 
-Version 5.0.3 : 03/02/20. R√©visions svn 493
+Version 5.0.3 : 03/02/20. RÈvisions svn 493
 ===============
 
-Retouches gestion des d√©pendances, notamment arr√©t d√©pendance √© Qt 5.9.1.
+Retouches gestion des dÈpendances, notamment arrÍt dÈpendance ‡ Qt 5.9.1.
 
-ATTENTION : test√© uniquement avec Qt 5.9.1 dans un contexte CMake/Spack.
+ATTENTION : testÈ uniquement avec Qt 5.9.1 dans un contexte CMake/Spack.
 
 
-Version 5.0.2 : 21/01/20. R√©visions svn 492
+Version 5.0.2 : 21/01/20. RÈvisions svn 492
 ===============
 
-Script de g√©n√©ration de l'archive des sources, script create_tarball.sh.
+Script de gÈnÈration de l'archive des sources, script create_tarball.sh.
 Fichier LISEZMOI.txt
 
 
-Version 5.0.1 : 06/01/20 r√©vision svn 491
+Version 5.0.1 : 06/01/20 rÈvision svn 491
 ===============
 
 Version 5.0.1. Portage (Atos_7__x86_64). Retouche workarounds.cmake pour lib stdc++ GNU.
 
 
-Version 5.0.0 : 18/12/19 (r√©visions svn r490/r491)
+Version 5.0.0 : 18/12/19 (rÈvisions svn r490/r491)
 ===============
 
 Portage CMake/Spack g++ 8.3/intel 18.0.3
 
 
-Version 4.8.0 : deployee le 26/09/19 (r√©visions svn r480/r481)
+Version 4.8.0 : deployee le 26/09/19 (rÈvisions svn r480/r481)
 ===============
 
 TK_libraries v 4.10.0
@@ -175,36 +192,36 @@ TK_libraries v 4.10.0
 Classe QtColorChooser
 
 
-Version 4.7.0 : deployee le 05/09/19 (r√©visions svn r476/r477)
+Version 4.7.0 : deployee le 05/09/19 (rÈvisions svn r476/r477)
 ===============
 
 TK_libraries v 4.9.0, TkUtil v 4.6.0.
 
 Classe QtExternalLinkDialog : UTF8String en arguments du constructeur en
 remplacement de string.
-Classe QtCharsetedFileDialog : Ajout impl√©mentation m√©thode getExtension.
+Classe QtCharsetedFileDialog : Ajout implÈmentation mÈthode getExtension.
 
 Classes QtFontPanel et QtPenPanel : Utilisation de QColorDialog non natives.
 
 
-Version 4.6.0 : deployee le 28/11/18 (r√©visions svn r473/r475)
+Version 4.6.0 : deployee le 28/11/18 (rÈvisions svn r473/r475)
 ===============
 
 TkUtil v 4.5.0
 
 
-Version 4.5.0 : deployee le 16/11/18 (r√©visions svn r470/r472)
+Version 4.5.0 : deployee le 16/11/18 (rÈvisions svn r470/r472)
 ===============
 
 TkUtil v 4.4.0
 
 
-Version 4.4.0 : deployee le 14/09/18 (r√©visions svn r463/r465)
+Version 4.4.0 : deployee le 14/09/18 (rÈvisions svn r463/r465)
 ===============
 
-R√©vision svn 466/468 suite re-d√©ploiement du 20/09/18.
+RÈvision svn 466/468 suite re-dÈploiement du 20/09/18.
 
-Red√©ploy√©e le 20/09/18 : QtCharsetedFileDialog n'utilise pas un s√©lecteur natif
+RedÈployÈe le 20/09/18 : QtCharsetedFileDialog n'utilise pas un sÈlecteur natif
 	sinon plantage sous CentOS 7 / Qt 5.9.1 en environnement Gnome (passe sous
 	KDE).
 
@@ -214,38 +231,38 @@ Utilisation par QtWebBrowser, QtStringHelper, QtUnicodeHelper et QtTextEditor
 de ces sorties consoles.
 
 
-Version 4.3.0 : deployee le 04/09/18 (r√©visions svn r460/r462)
+Version 4.3.0 : deployee le 04/09/18 (rÈvisions svn r460/r462)
 ===============
 
-QtHelpWindow : d√©sactivation de l'utilisation d'Open GL par chromium
-(qui fait mauvais m√©nage avec VTK).
+QtHelpWindow : dÈsactivation de l'utilisation d'Open GL par chromium
+(qui fait mauvais mÈnage avec VTK).
 
 Classes QtCharsetComboBox, QtLabelisedCharsetComboBox et
 QtCharsetedFileDialog.
 
 
-Version 4.2.0 : 22/06/18 (r√©visions svn r457/r459)
+Version 4.2.0 : 22/06/18 (rÈvisions svn r457/r459)
 ===============
 
 TK_Variants v 4.2.0 (TkUtil v 4.1.0, nouveaux services UTF8String).
 
 
-Version 4.1.0 : 08/06/18 (r√©visions svn r453/r455)
+Version 4.1.0 : 08/06/18 (rÈvisions svn r453/r455)
 ===============
 
-Red√©ploy√© le 21/06/18 : correctif encodage logs de type ProcessLog et 
+RedÈployÈ le 21/06/18 : correctif encodage logs de type ProcessLog et 
 ProgressionLog.
 
 TK_Variants v 4.1.0 (Qt591, ECM_Variants v 1.22.0 => arret cible
 BullEL_6_AE__x86_64).
-Utilisation du scenario de deploiement QT_LIBS. D√©ploiement uniquement des
+Utilisation du scenario de deploiement QT_LIBS. DÈploiement uniquement des
 versions statiques.
 
 - QtHelpWindow et QtWebBrowser : utilisation de QWebEngine pour les versions
-sup√©rieures ou √©gales √© Qt 5.9.1.
+supÈrieures ou Ègales ‡ Qt 5.9.1.
 - QtStringPanel :
 	- Le constructeur prend des UTF8String en arguments.
-	- getValue retourne une UTF8String, m√©thode getStdValue
+	- getValue retourne une UTF8String, mÈthode getStdValue
 
 
 Version 4.0.0 : 16/03/18
@@ -253,34 +270,34 @@ Version 4.0.0 : 16/03/18
 
 TK_Variants v 4.0.0
 
-Utilisation de la classe Charset de TkUtil √© des fins d'auto-d√©tection
-du jeu de caract√©res utilis√© pour encoder les fichiers sources en vue
-d'assurer un meilleur rendu des libell√©s dans les IHMs.
+Utilisation de la classe Charset de TkUtil ‡ des fins d'auto-dÈtection
+du jeu de caractËres utilisÈ pour encoder les fichiers sources en vue
+d'assurer un meilleur rendu des libellÈs dans les IHMs.
 
-Gestion des cha√©nes de caract√©res au format UTF-8 (classe TkUtil::UTF8String),
+Gestion des chaÓnes de caractËres au format UTF-8 (classe TkUtil::UTF8String),
 y compris dans les (flux de) logs.
 
 
 Version 3.6.0 : 17/11/17
 ===============
 
-Red√©ploy√©e le 14/12/17 puis le 25/01/18, puis le 29/01/18 (l√©gers correctifs
+RedÈployÈe le 14/12/17 puis le 25/01/18, puis le 29/01/18 (lÈgers correctifs
 QString -> QLatin1String).
 
 TK_Variants v 3.0.0 (ECM_Variants v 1.21.0 : portage RH 7,
 compilateurs gcc 6.2.0, icpc 17.0.4)
 
 Fichier CharToLatinQString : macro permettant de transformer automatiquement des
-char* en QLatin1String, utile √© partir de Qt 5.?.
+char* en QLatin1String, utile ‡ partir de Qt 5.?.
 
-Retouche de la r√©gle de conversion .h -> moc_* requise √© partir de Qt 5.?. En
+Retouche de la rËgle de conversion .h -> moc_* requise ‡ partir de Qt 5.?. En
 effet moc, lorsque la sortie est un fichier (et non stdout), fait les includes
-vers le .h compil√© en relatif et non pas en absolu, et, du coup, √©a ne marche
-pas forc√©ment ...
+vers le .h compilÈ en relatif et non pas en absolu, et, du coup, Áa ne marche
+pas forcÈment ...
 
 Suppression des QtCore/, QtGui/ et autre au niveau des include car incompatible
-avec les stations RH7 qui ont ses r√©pertoires dans /usr/include => les fichiers
-inclus viennent de l√© en priorit√© et ce peut √©tre incompatible avec ceux issus
+avec les stations RH7 qui ont ses rÈpertoires dans /usr/include => les fichiers
+inclus viennent de l‡ en prioritÈ et ce peut Ítre incompatible avec ceux issus
 de notre distribution ...
 
 
@@ -303,12 +320,12 @@ Version 3.2.0 : 15/03/17
 ===============
 
 TK_Variants version 2.7.0.
-TkUtil v 3.1.0 : arr√©t annulation de threads via API thread Posix,
+TkUtil v 3.1.0 : arrÍt annulation de threads via API thread Posix,
 incompatible avec le langage C++.
 
 - Classe QtCoordinatesTextField (issue de QtVtk).
-- Correctif dans QtAboutDialog::showEvent : l'avertissement ci-apr√©s √©tait 
-affich√© dans le terminal de lancement :
+- Correctif dans QtAboutDialog::showEvent : l'avertissement ci-aprËs Ètait 
+affichÈ dans le terminal de lancement :
 QWidget::setMinimumSize: (/QtAboutDialog) Negative sizes (-1,-1) are not possible
 
 
@@ -325,7 +342,7 @@ Version 3.0.0 : 09/12/16
 
 - TK_Variants-2.0.0
 
-Arr√©t variant MT.
+ArrÍt variant MT.
 
 
 Version 2.53.0 : 29/08/16
@@ -333,7 +350,7 @@ Version 2.53.0 : 29/08/16
 
 - TK_Variants-1.73.0
 
-Red√©ploy√© le 25/10/16 : correctif QtHelpWindow::displayURL sous Qt 4.8.5.
+RedÈployÈ le 25/10/16 : correctif QtHelpWindow::displayURL sous Qt 4.8.5.
 
 
 Version 2.52.0 : 15/03/16
@@ -373,7 +390,7 @@ Version 2.49.0 : 12/10/15
 Version 2.48.0 : 06/07/15
 ================
 
-Red√©ploy√©e le 24/07/15 (retouches messages QtDoubleTextField::getValue).
+RedÈployÈe le 24/07/15 (retouches messages QtDoubleTextField::getValue).
 
 TK_variants v 2.52.0 (Portage Atos_7__x86_64 ...).
 
@@ -413,7 +430,7 @@ Version 2.44.1 : 23/06/14
 ================
 
 - Correctif dans QtDoubleTextField::getValue : pouvait lever une exception
-si la valeur saisie √©tait √©gale au minimum ou au maximum du domaine de saisie.
+si la valeur saisie Ètait Ègale au minimum ou au maximum du domaine de saisie.
 
 
 Version 2.44.0 : 04/04/14
@@ -428,8 +445,8 @@ Version 2.43.0 : 10/02/14
 
 - TK_Variants v 1.34.0.
 - QtLogsView :
-Correctif : l'affichage des logs n'apparait pas forc√©ment en temps r√©el. Un
-QApplication::processEvents ( ) est effectu√© afin de forcer la prise d'effet
+Correctif : l'affichage des logs n'apparait pas forcÈment en temps rÈel. Un
+QApplication::processEvents ( ) est effectuÈ afin de forcer la prise d'effet
 du QTextBrowser::append.
 Formatage optionnel du nombre de colonnes lors de l'affichage des messages.
 - Classe QtWebBrowser.
@@ -449,10 +466,10 @@ Suppression du code Qt 3.x.
 Support Qt v 4.8.5 et 5.1.1.
 
 - QtValidatedTextField : la validation automatique lors de la perte
-de focus ou de la frappe d'une touche est d√©sactivable.
+de focus ou de la frappe d'une touche est dÈsactivable.
 - QtIntTextField et QtDoubleTextField : messages d'erreurs
-personnalis√©s en cas de domaines de validit√© infinis.
-- QtHelpWindow : repose sur QtWebKit par d√©faut, mais possibilit√© de la faire
+personnalisÈs en cas de domaines de validitÈ infinis.
+- QtHelpWindow : repose sur QtWebKit par dÈfaut, mais possibilitÈ de la faire
 reposer sur QTextBrowser (cf. common.xml, activation de add_definitions
 -DUSE_QT_WEBKIT).
 
@@ -469,8 +486,8 @@ Version 2.40.1 : 16/09/13
 
 Correction de bogue :
 - QtDoubleTextField::setNotation : en cas de changement de notation la valeur
-dans le champ de texte est r'e√©crite avec la nouvelle notation.
-Bogue corrig√© : validate, appel√© notamment lors de la perte du focus, levait
+dans le champ de texte est r'eÈcrite avec la nouvelle notation.
+Bogue corrigÈ : validate, appelÈ notamment lors de la perte du focus, levait
 une exception.
 
 
@@ -480,8 +497,8 @@ Version 2.40.0 : 30/05/13 (et 10/06/13 puis 16/09/13)
 - TK_Variants 1.27.0.
 - TkUtil v 2.32.0.
 
-Red√©ploy√© le 10/06/13 avec le correctif suivant :
-- Correction de bogue : Qt3DDataPanel::numberOfCharacters passe √© 18
+RedÈployÈ le 10/06/13 avec le correctif suivant :
+- Correction de bogue : Qt3DDataPanel::numberOfCharacters passe ‡ 18
 (anciennement 12, insuffisant lorsque la notation utilisait des exposants).
 
 
@@ -489,41 +506,41 @@ Version 2.39.0 : 13/05/13
 ================
 
 - TK_Variants 1.26.0.
-- TkUtil v 2.31.0 : √©volutions classe Mutex (mutex non r√©cursifs, tryLock).
+- TkUtil v 2.31.0 : Èvolutions classe Mutex (mutex non rÈcursifs, tryLock).
 
 
 Version 2.38.0 : 25/01/13
 ================
 
 - TK_Variants v 1.24.0 (TkUtil v 2.30.0).
-- Correctif dans la classe QtHelpWindow : lors des appels √© displayURL la
-fen√©tre ne se positionnait pas sur la balise transmise en second argument.
+- Correctif dans la classe QtHelpWindow : lors des appels ‡ displayURL la
+fenÍtre ne se positionnait pas sur la balise transmise en second argument.
 
 
 Version 2.37.0 : 16/01/13
 ================
 
 - QtTextField :
-	- M√©thodes sizeHint (  ) et isNumeric ( ).
+	- MÈthodes sizeHint (  ) et isNumeric ( ).
 	- setVisibleColumns : correctif pour Qt 4.
-- Classes QtIntTextField et QtDoubleTextField : m√©thode isNumeric.
+- Classes QtIntTextField et QtDoubleTextField : mÈthode isNumeric.
 - Classe Qt3DDataPanel : utilise des champs de type QtDoubleTextField.
 
 
 Version 2.36.0 : 06/12/12
 ================
 
-- TK_Variants v 1.23.0 (cibles de d√©ploiement actualis√©es).
+- TK_Variants v 1.23.0 (cibles de dÈploiement actualisÈes).
 - Qt 4.7.4.
 - HelpWindow reposant sur QtWebKit (support HTML nettement enrichit, notamment
-avec possibilit√© d'une image "confidentiel d√©fense" en fond de page).
+avec possibilitÈ d'une image "confidentiel dÈfense" en fond de page).
 
 
 Version 2.35.0 : 12/10/12
 ================
 
 - TK_Variants v 1.22.0 (TkUtil v 2.29.0).
-- Qt 4.7.4, arr√©t Qt 3.
+- Qt 4.7.4, arrÍt Qt 3.
 
 
 Version 2.34.0 : 24/11/11
@@ -537,12 +554,12 @@ Version 2.33.0 : 08/09/11
 
 - TK_Variants v 1.19.0 (TkUtil v 2.25.0).
 - QtLogsView et QtStatusLogOutputStream : logs non interruptibles par
-pthread_cancel en cas de multithreading. Probl√©mes de dead-locks observ√©s lors
-d'annulation diff√©r√©e de thread (pthread_cancel, PTHREAD_CANCEL_DEFERRED). Ces
-dead-locks sont provoqu√©s par QMetaObject::activate qui aurait des points
+pthread_cancel en cas de multithreading. ProblËmes de dead-locks observÈs lors
+d'annulation diffÈrÈe de thread (pthread_cancel, PTHREAD_CANCEL_DEFERRED). Ces
+dead-locks sont provoquÈs par QMetaObject::activate qui aurait des points
 d'annulation indirects de thread.  En cas d'annulation un mutex ne serait pas
-d√©verrouill√©.
-Bogue appli, bogue Qt 4.6.2, incompatibilit√© car non utilisation des QThreads ?
+dÈverrouillÈ.
+Bogue appli, bogue Qt 4.6.2, incompatibilitÈ car non utilisation des QThreads ?
 => On interdit une annulation de thread dans la partie Qt.
 
 
@@ -561,19 +578,19 @@ Version 2.31.0 : 25/01/11
 Version 2.30.0 : 13/01/11
 ================
 
-- Blindage mutithreading sous Qt 4. Des actions d'√©criture/affichage
-initi√©es par des threads autres que le thread principal entra√©nent l'affichage
-dans la console de message X11 vari√©s, le plantage de l'application, voir le
-blocage du serveur X. Les pixmaps sont plus particuli√©rement touch√©s.
-- Classes impact√©es :
+- Blindage mutithreading sous Qt 4. Des actions d'Ècriture/affichage
+initiÈes par des threads autres que le thread principal entraÓnent l'affichage
+dans la console de message X11 variÈs, le plantage de l'application, voir le
+blocage du serveur X. Les pixmaps sont plus particuliËrement touchÈs.
+- Classes impactÈes :
 	- QtAutoWaitingCursor
 	- QtStatusLogOutputStream
 	- QtLogsView
-Rem : d'autres classes peuvent √©tre le si√©ge de probl√©mes analogues. Cela a
-√©t√© remarqu√© sur ces classes car elles √©taient appel√©es par des taches lanc√©es
-dans des threads et provoquaient des op√©rations d'affichage ou (in)activation
-de menus depuis ces threads. Le sablier d'attente √©tait activ√© durant ces
-op√©rations d'affichage.
+Rem : d'autres classes peuvent Ítre le siËge de problËmes analogues. Cela a
+ÈtÈ remarquÈ sur ces classes car elles Ètaient appelÈes par des taches lancÈes
+dans des threads et provoquaient des opÈrations d'affichage ou (in)activation
+de menus depuis ces threads. Le sablier d'attente Ètait activÈ durant ces
+opÈrations d'affichage.
 
 
 Version 2.29.0 : 30/11/10
@@ -581,16 +598,16 @@ Version 2.29.0 : 30/11/10
 
 - Classe QtStatusLogOutputStream.
 - Correctif de bogue dans la classe QtScientificTextDialog : bouton
-"Appliquer" inactif si l'on a utilis√© que le clavier de la boite de dialogue
-avec les caract√©res grecs.
+"Appliquer" inactif si l'on a utilisÈ que le clavier de la boite de dialogue
+avec les caractËres grecs.
 - Exemple test : utilisation des gestionnaires de flux sortants pour affichage
-d'infos sur le d√©roulement d'une session.
+d'infos sur le dÈroulement d'une session.
 
 
 Version 2.28.0 : 07/10/10
 ================
 
-- En-t√©tes : #include "*.h" -> #include <*.h>
+- En-tÍtes : #include "*.h" -> #include <*.h>
 - TkUtil 2.21.0
 
 
@@ -599,21 +616,21 @@ Version 2.27.0 : 31/08/10
 
 - TK_Variants-1.9.0
 - TkUtil 2.20.0
-- Arr√©t d√©ploiement Qt 4.4.1.
+- ArrÍt dÈploiement Qt 4.4.1.
 
 
 Version 2.26.0 : 21/06/10
 ================
 
-Mise √© jour du 13/07/10 :
+Mise ‡ jour du 13/07/10 :
 	- Correctif de bogue dans QtStringListSelectionPanel en Qt 4.
-	- Tests testant √©galement QtStringListSelectionPanel.
+	- Tests testant Ègalement QtStringListSelectionPanel.
 
-Mise √© jour du 09/07/10 :
+Mise ‡ jour du 09/07/10 :
 	- Correctif de bogue dans QtCoordinatesDialog (plantage sous Qt 4).
 	- Correctif de bogue dans QtRotationDialog (angle et axe non
-	affich√©s sous Qt 4).
-	- Tests testant √©galement QtCoordinatesDialog et QtRotationDialog.
+	affichÈs sous Qt 4).
+	- Tests testant Ègalement QtCoordinatesDialog et QtRotationDialog.
 
 TK_Variants-1.8.0 : ajout version Qt 4.6.2.
 
@@ -797,7 +814,7 @@ Module util :
 	- Correctif dans QtWidgetAutoLock::setEnabled
 
 
-Versions ant√©rieures :
+Versions antÈrieures :
 ======================
 
 Voir fichier versions.old.

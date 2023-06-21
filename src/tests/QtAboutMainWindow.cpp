@@ -84,8 +84,6 @@ string	QtAboutMainWindow::webTag ("");
 QtAboutMainWindow::QtAboutMainWindow (QWidget* parent)
 	: QMainWindow (parent), _webBrowser (0), _logView (0), _statusLogOutputStream (0), _logDispatcher ( )
 {
-// EXPURGE_BEGINNING_TAG WEB_PAGES_TAG
-// EXPURGE_COMPLETION_TAG	
 	QMenu*	menu	= new QMenu ("Application", this);
 	menuBar ( )->addMenu (menu);
 	menu->setToolTipsVisible (true);
