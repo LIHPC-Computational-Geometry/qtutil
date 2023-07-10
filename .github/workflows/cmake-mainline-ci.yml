@@ -29,25 +29,23 @@ jobs:
         with:
           path: LIHPC-Computational-Geometry/tkutil
           fetch-depth: 2 # seems to be needed by codecov
-          submodules: recursive
 
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
-          cmake -S /__w/qtutil/qtutil/LIHPC-Computational-Geometry/tkutil -B build --preset=ci --install-prefix=/tkutil-install
-          cmake --build build --target install
+          cmake -S /__w/qtutil/qtutil/LIHPC-Computational-Geometry/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
+          cmake --build build/tkutil --target install
 
       - name: Checkout QtUtil source code from GitHub
         uses: actions/checkout@v3
         with:
           fetch-depth: 2 # seems to be needed by codecov
-          submodules: recursive
 
       - name: Build QtUtil with Cmake
         shell: bash
         run: |
-          cmake -S . -B build --preset=ci -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
-          cmake --build build --target install
+          cmake -S . -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
+          cmake --build build/qtutil --target install
 
       - name: Run QtUtil unit tests
         if: ${{ inputs.run-tests }}
