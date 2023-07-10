@@ -27,7 +27,7 @@ jobs:
       - name: Checkout TkUtil source code from GitHub
         uses: actions/checkout@v3
         with:
-          path: LIHPC-Computational-Geometry/tkutil
+          repository: LIHPC-Computational-Geometry/tkutil
           fetch-depth: 2 # seems to be needed by codecov
 
       - name: Build TkUtil with Cmake
