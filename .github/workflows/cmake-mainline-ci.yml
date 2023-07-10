@@ -1,4 +1,4 @@
-name: Reusable Cmake workflow 
+name: Cmake CI on mainline
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout TkUtil source code from GitHub
         uses: actions/checkout@v3
         with:
-          name: LIHPC-Computational-Geometry/tkutil
+          path: LIHPC-Computational-Geometry/tkutil
           fetch-depth: 2 # seems to be needed by codecov
           submodules: recursive
 
