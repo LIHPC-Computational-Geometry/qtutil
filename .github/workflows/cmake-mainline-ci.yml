@@ -1,0 +1,71 @@
+name: Reusable Cmake workflow 
+
+env:
+  QT_QPA_PLATFORM: offscreen
+
+jobs:
+  main:
+    name: CMake build & run mainline
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Linux, Windows or Mac.
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/lihpc-computational-geometry/cmake-cgcore:latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout TkUtil source code from GitHub
+        uses: actions/checkout@v3
+        with:
+          name: LIHPC-Computational-Geometry/tkutil
+          fetch-depth: 2 # seems to be needed by codecov
+          submodules: recursive
+
+      - name: Build TkUtil with Cmake
+        shell: bash
+        run: |
+          cmake -S . -B build --preset=ci --install-prefix=/tkutil-install
+          cmake --build build --target install
+
+      - name: Checkout QtUtil source code from GitHub
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2 # seems to be needed by codecov
+          submodules: recursive
+
+      - name: Build QtUtil with Cmake
+        shell: bash
+        run: |
+          cmake -S . -B build --preset=ci -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
+          cmake --build build --target install
+
+      - name: Run QtUtil unit tests
+        if: ${{ inputs.run-tests }}
+        shell: bash
+        run: |
+          cmake --build build --target test
+
+      - name: Archive QtUtil unit tests logs
+        if: ${{ inputs.run-tests && failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-logs
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/build/Testing/Temporary/LastTest.log
+
+      - name: Test of link on QtUtil
+        shell: bash
+        run: |
+          cd test_link/
+          cp ../CMakePresets.json .
+          # Do not use ${{ github.event.repository.name }}_ROOT variable: package names != project names (sometimes)
+          cmake -S . -B build --preset=ci -DCMAKE_PREFIX_PATH=/${{ github.event.repository.name }}-install
+          cmake --build build
+          cmake --build build --target test
+
+      - name: Archive test of link logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-of-link-logs
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_link/build/Testing/Temporary/LastTest.log
