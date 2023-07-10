@@ -1,5 +1,14 @@
 name: Reusable Cmake workflow 
 
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+
 env:
   QT_QPA_PLATFORM: offscreen
 
