@@ -34,7 +34,7 @@ jobs:
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
-          cmake -S . -B build --preset=ci --install-prefix=/tkutil-install
+          cmake -S /__w/qtutil/qtutil/LIHPC-Computational-Geometry/tkutil -B build --preset=ci --install-prefix=/tkutil-install
           cmake --build build --target install
 
       - name: Checkout QtUtil source code from GitHub
