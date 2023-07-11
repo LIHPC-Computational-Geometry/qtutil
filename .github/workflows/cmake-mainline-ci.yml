@@ -33,7 +33,7 @@ jobs:
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
-          cmake -S /__w/qtutil/qtutil/LIHPC-Computational-Geometry/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
+          cmake -S /__w/qtutil/qtutil/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
           cmake --build build/tkutil --target install
 
       - name: Checkout QtUtil source code from GitHub
