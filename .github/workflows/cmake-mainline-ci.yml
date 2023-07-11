@@ -29,12 +29,15 @@ jobs:
         with:
           repository: LIHPC-Computational-Geometry/tkutil
           path: tkutil
-          fetch-depth: 2 # seems to be needed by codecov
 
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
+          echo --- PATH
           pwd
+          echo --- WS
+          echo ${{ github.workspace }}
+          echo ---
           cmake -S ${{ github.workspace }}/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
           cmake --build build/tkutil --target install
 
@@ -42,7 +45,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: qtutil
-          fetch-depth: 2 # seems to be needed by codecov
 
       - name: Build QtUtil with Cmake
         shell: bash
