@@ -38,9 +38,9 @@ jobs:
           echo --- LS
           ls
           echo --- WS
-          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
           echo ---
-          cmake -S ${{ github.workspace }}/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
+          cmake -S $GITHUB_WORKSPACE/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
           cmake --build build/tkutil --target install
 
       - name: Checkout QtUtil source code from GitHub
@@ -51,7 +51,7 @@ jobs:
       - name: Build QtUtil with Cmake
         shell: bash
         run: |
-          cmake -S ${{ github.workspace }}/qtutil -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
+          cmake -S $GITHUB_WORKSPACE/qtutil -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
           cmake --build build/qtutil --target install
 
       - name: Run QtUtil unit tests
