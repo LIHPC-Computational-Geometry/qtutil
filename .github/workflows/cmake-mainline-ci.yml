@@ -33,13 +33,6 @@ jobs:
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
-          echo --- PATH
-          pwd
-          echo --- LS
-          ls
-          echo --- WS
-          echo $GITHUB_WORKSPACE
-          echo ---
           cmake -S $GITHUB_WORKSPACE/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
           cmake --build build/tkutil --target install
 
@@ -55,7 +48,6 @@ jobs:
           cmake --build build/qtutil --target install
 
       - name: Run QtUtil unit tests
-        if: ${{ inputs.run-tests }}
         shell: bash
         run: |
           cmake --build build/qtutil --target test
