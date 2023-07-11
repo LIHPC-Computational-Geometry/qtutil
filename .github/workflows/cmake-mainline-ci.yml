@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: LIHPC-Computational-Geometry/tkutil
+          path: tkutil
           fetch-depth: 2 # seems to be needed by codecov
 
       - name: Build TkUtil with Cmake
@@ -39,40 +40,27 @@ jobs:
       - name: Checkout QtUtil source code from GitHub
         uses: actions/checkout@v3
         with:
+          path: qtutil
           fetch-depth: 2 # seems to be needed by codecov
 
       - name: Build QtUtil with Cmake
         shell: bash
         run: |
-          cmake -S . -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
+          cmake -S ${{ github.workspace }}/qtutil -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
           cmake --build build/qtutil --target install
 
       - name: Run QtUtil unit tests
         if: ${{ inputs.run-tests }}
         shell: bash
         run: |
-          cmake --build build --target test
-
-      - name: Archive QtUtil unit tests logs
-        if: ${{ inputs.run-tests && failure() }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: unit-test-logs
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/build/Testing/Temporary/LastTest.log
+          cmake --build build/qtutil --target test
 
       - name: Test of link on QtUtil
         shell: bash
         run: |
-          cd test_link/
+          cd qtutil/test_link/
           cp ../CMakePresets.json .
           # Do not use ${{ github.event.repository.name }}_ROOT variable: package names != project names (sometimes)
           cmake -S . -B build --preset=ci -DCMAKE_PREFIX_PATH=/${{ github.event.repository.name }}-install
           cmake --build build
           cmake --build build --target test
-
-      - name: Archive test of link logs
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-of-link-logs
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_link/build/Testing/Temporary/LastTest.log
