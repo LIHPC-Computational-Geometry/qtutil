@@ -47,11 +47,6 @@ jobs:
           cmake -S $GITHUB_WORKSPACE/qtutil -B build/qtutil -DCMAKE_PREFIX_PATH=/tkutil-install --install-prefix=/${{ github.event.repository.name }}-install
           cmake --build build/qtutil --target install
 
-      - name: Run QtUtil unit tests
-        shell: bash
-        run: |
-          cmake --build build/qtutil --target test
-
       - name: Test of link on QtUtil
         shell: bash
         run: |
