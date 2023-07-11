@@ -34,6 +34,7 @@ jobs:
       - name: Build TkUtil with Cmake
         shell: bash
         run: |
+          pwd
           cmake -S ${{ github.workspace }}/tkutil -B build/tkutil -DUSE_PYTHON_3:BOOL=ON --install-prefix=/tkutil-install
           cmake --build build/tkutil --target install
 
