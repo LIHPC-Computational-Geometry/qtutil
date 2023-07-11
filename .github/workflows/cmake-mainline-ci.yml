@@ -35,6 +35,8 @@ jobs:
         run: |
           echo --- PATH
           pwd
+          echo --- LS
+          ls
           echo --- WS
           echo ${{ github.workspace }}
           echo ---
