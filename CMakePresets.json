@@ -4,6 +4,7 @@
       {
         "name": "ci",
         "cacheVariables": {
+          "GUIToolkitsVariables_ROOT": "$env{INSTALL_DIR}/guitoolkitsvariables",
           "TkUtil_ROOT": "$env{INSTALL_DIR}/tkutil"
         }
       }
