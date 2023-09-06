@@ -22,32 +22,47 @@ class QtCoordinatesDialog : public QDialog
 	public	:
 
 	/**
-	 * Constructeur. Délègue à la classe <I>QtDlgClosurePanel</I> l'éventuelle
-	 * aide contextuelle.
+	 * Constructeur. Délègue à la classe <I>QtDlgClosurePanel</I> l'éventuelle aide contextuelle.
 	 * @param		Widget parent
 	 * @param		Titre de la fenêtre
 	 * @param		titre de la première composante.
 	 * @param		titre de la seconde composante.
 	 * @param		titre de la troisème composante.
 	 * @param		valeurs par défaut des composantes.
-	 * @param		True si les cases à cocher "active" doivent être activées,
-	 *				false dans le cas contraire.
-	 * @param		true si la composante est active, false dans le cas
-	 *				contraire.
+	 * @param		True si les cases à cocher "active" doivent être activées, false dans le cas contraire.
+	 * @param		true si la composante est active, false dans le cas contraire.
 	 * @param		URL de l'aide
 	 * @param		Balise de l'aide
 	 * @see			QtDlgClosurePanel
+	 * @see			createGui
 	 */
-	QtCoordinatesDialog (
-					QWidget* parent, const IN_UTIL UTF8String& title, 
-					const IN_UTIL UTF8String& xLabel,
-					const IN_UTIL UTF8String& yLabel,
-					const IN_UTIL UTF8String& zLabel,
-					double x, double y, double z,
-					bool checkboxesEnabled,
-					bool xEnabled, bool yEnabled, bool zEnabled,
-					const IN_STD string& helpURL = "",
-					const IN_STD string& helpTag = "");
+	QtCoordinatesDialog (QWidget* parent, const IN_UTIL UTF8String& title, 
+					const IN_UTIL UTF8String& xLabel, const IN_UTIL UTF8String& yLabel, const IN_UTIL UTF8String& zLabel,
+					double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
+					const IN_STD string& helpURL = "", const IN_STD string& helpTag = "");
+
+	/**
+	 * Constructeur. Délègue à la classe <I>QtDlgClosurePanel</I> l'éventuelle aide contextuelle.
+	 * @param		Widget parent
+	 * @param		Titre de la fenêtre
+	 * @param		titre de la première composante.
+	 * @param		titre de la seconde composante.
+	 * @param		titre de la troisème composante.
+	 * @param		valeurs par défaut des composantes.
+	 * @param		True si les cases à cocher "active" doivent être activées, false dans le cas contraire.
+	 * @param		true si la composante est active, false dans le cas contraire.
+	 * @param		Valeurs min et max des 3 composantes. Utilisé pour affichage informatif lorsque min <= max.
+	 * @param		URL de l'aide
+	 * @param		Balise de l'aide
+	 * @see			QtDlgClosurePanel
+	 * @see			createGui
+	 * @since		6.3.0
+	 */
+	QtCoordinatesDialog (QWidget* parent, const IN_UTIL UTF8String& title, 
+					const IN_UTIL UTF8String& xLabel, const IN_UTIL UTF8String& yLabel, const IN_UTIL UTF8String& zLabel,
+					double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
+					double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+					const IN_STD string& helpURL = "", const IN_STD string& helpTag = "");
 
 	/**
 	 * Destructeur : RAS.
@@ -84,6 +99,27 @@ class QtCoordinatesDialog : public QDialog
 	 * Opérateur = : interdit.
 	 */
 	QtCoordinatesDialog& operator = (const QtCoordinatesDialog&);
+	
+	/**
+	 * Création de l'IHM. Délègue à la classe <I>QtDlgClosurePanel</I> l'éventuelle aide contextuelle.
+	 * @param		Titre de la fenêtre
+	 * @param		titre de la première composante.
+	 * @param		titre de la seconde composante.
+	 * @param		titre de la troisème composante.
+	 * @param		valeurs par défaut des composantes.
+	 * @param		True si les cases à cocher "active" doivent être activées, false dans le cas contraire.
+	 * @param		true si la composante est active, false dans le cas contraire.
+	 * @param		Valeurs min et max des 3 composantes. Utilisé pour affichage informatif lorsque min <= max.
+	 * @param		URL de l'aide
+	 * @param		Balise de l'aide
+	 * @see			QtDlgClosurePanel
+	 * @since		6.3.0
+	 */
+	void createGui (const IN_UTIL UTF8String& title, 
+					const IN_UTIL UTF8String& xLabel, const IN_UTIL UTF8String& yLabel, const IN_UTIL UTF8String& zLabel,
+					double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
+					double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+					const IN_STD string& helpURL = "", const IN_STD string& helpTag = "");
 
 	/**
 	 * La saisie des composantes.

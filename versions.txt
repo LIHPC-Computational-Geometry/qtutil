@@ -1,3 +1,11 @@
+Version 6.3.0 : 06/09/23
+===============
+
+QtCoordinatesDialog : 
+- Constructeur prenant en arguments les domaines des composantes x, y, z.
+- Méthode createGui pour factoriser le code de construction de l'IHM.
+
+
 Version 6.2.0 : 21/06/23
 ===============
 
