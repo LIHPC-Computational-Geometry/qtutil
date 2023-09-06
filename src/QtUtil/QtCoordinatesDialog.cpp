@@ -29,19 +29,33 @@ USE_ENCODING_AUTODETECTION
 
 
 QtCoordinatesDialog::QtCoordinatesDialog (
-			QWidget* parent, const UTF8String& title, 
-			const UTF8String& xLabel,
-			const UTF8String& yLabel,
-			const UTF8String& zLabel,
-			double x, double y, double z,
-			bool checkboxesEnabled,
-			bool xEnabled, bool yEnabled, bool zEnabled,
+			QWidget* parent, const UTF8String& title, const UTF8String& xLabel, const UTF8String& yLabel, const UTF8String& zLabel,
+			double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
 			const string& helpURL, const string& helpTag)
 	: QDialog (parent, QtConfiguration::modalDialogWFlags),
-	  _xTextField (0), _yTextField (0), _zTextField (0),
-	  _modifyXCheckBox (0), _modifyYCheckBox (0), _modifyZCheckBox (0),
-	  _closurePanel (0)
-{	
+	  _xTextField (0), _yTextField (0), _zTextField (0), _modifyXCheckBox (0), _modifyYCheckBox (0), _modifyZCheckBox (0), _closurePanel (0)
+{
+	createGui (title, xLabel, yLabel, zLabel, x, y, z, 1., -1., 1., -1., 1., -1., checkboxesEnabled, xEnabled, yEnabled, zEnabled, helpURL, helpTag);	// v 6.3.0
+}	// QtCoordinatesDialog::QtCoordinatesDialog
+
+
+QtCoordinatesDialog::QtCoordinatesDialog (	// v 6.3.0
+			QWidget* parent, const UTF8String& title, const UTF8String& xLabel, const UTF8String& yLabel, const UTF8String& zLabel,
+			double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
+			double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			const string& helpURL, const string& helpTag)
+	: QDialog (parent, QtConfiguration::modalDialogWFlags),
+	  _xTextField (0), _yTextField (0), _zTextField (0), _modifyXCheckBox (0), _modifyYCheckBox (0), _modifyZCheckBox (0), _closurePanel (0)
+{
+	createGui (title, xLabel, yLabel, zLabel, x, y, z, checkboxesEnabled, xEnabled, yEnabled, zEnabled, xmin, xmax, ymin, ymax, zmin, zmax, helpURL, helpTag);
+}	// QtCoordinatesDialog::QtCoordinatesDialog
+
+
+void QtCoordinatesDialog::createGui (const UTF8String& title, const UTF8String& xLabel, const UTF8String& yLabel, const UTF8String& zLabel,
+			double x, double y, double z, bool checkboxesEnabled, bool xEnabled, bool yEnabled, bool zEnabled,
+			double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			const string& helpURL, const string& helpTag)
+{
 	setModal (true);
 	setWindowTitle (UTF8TOQSTRING (title));
 
@@ -74,6 +88,16 @@ QtCoordinatesDialog::QtCoordinatesDialog (
 	hboxLayout->addWidget (label);
 	hboxLayout->addWidget (_xTextField);
 	hboxLayout->addWidget (_modifyXCheckBox);
+	if (xmax >= xmin)
+	{	// v 6.3.0
+		UTF8String	rangeLabel;
+		rangeLabel << "[" << xmin << ", " << xmax << "]";
+		UTF8String	tooltip	= UTF8String ("Domaine : ", charset) + rangeLabel;
+		label->setToolTip (UTF8TOQSTRING (tooltip));
+		_xTextField->setToolTip (UTF8TOQSTRING (tooltip));
+		label	= new QLabel (UTF8TOQSTRING (rangeLabel), hbox);
+		hboxLayout->addWidget (label);
+	}	// if (xmax >= xmin)
 
 	// Ligne 2 : Y
 	hbox		= new QWidget (groupBox);
@@ -92,6 +116,16 @@ QtCoordinatesDialog::QtCoordinatesDialog (
 	hboxLayout->addWidget (label);
 	hboxLayout->addWidget (_yTextField);
 	hboxLayout->addWidget (_modifyYCheckBox);
+	if (ymax >= ymin)
+	{	// v 6.3.0
+		UTF8String	rangeLabel;
+		rangeLabel << "[" << ymin << ", " << ymax << "]";
+		UTF8String	tooltip	= UTF8String ("Domaine : ", charset) + rangeLabel;
+		label->setToolTip (UTF8TOQSTRING (tooltip));
+		_yTextField->setToolTip (UTF8TOQSTRING (tooltip));
+		label	= new QLabel (UTF8TOQSTRING (rangeLabel), hbox);
+		hboxLayout->addWidget (label);
+	}	// if (ymax >= ymin)
 
 	// Ligne 3 : Y
 	hbox		= new QWidget (groupBox);
@@ -110,18 +144,30 @@ QtCoordinatesDialog::QtCoordinatesDialog (
 	hboxLayout->addWidget (label);
 	hboxLayout->addWidget (_zTextField);
 	hboxLayout->addWidget (_modifyZCheckBox);
+	if (zmax >= zmin)
+	{	// v 6.3.0
+		UTF8String	rangeLabel;
+		rangeLabel << "[" << zmin << ", " << zmax << "]";
+		UTF8String	tooltip	= UTF8String ("Domaine : ", charset) + rangeLabel;
+		label->setToolTip (UTF8TOQSTRING (tooltip));
+		_zTextField->setToolTip (UTF8TOQSTRING (tooltip));
+		label	= new QLabel (UTF8TOQSTRING (rangeLabel), hbox);
+		hboxLayout->addWidget (label);
+	}	// if (zmax >= zmin)
+
+	int	width	= _xTextField->sizeHint ( ).width ( ) > _yTextField->sizeHint ( ).width ( ) ? _xTextField->sizeHint ( ).width ( ) : _yTextField->sizeHint ( ).width ( );
+	width		= _zTextField->sizeHint ( ).width ( ) > width ? _zTextField->sizeHint ( ).width ( ) : width;
+	_xTextField->setMinimumWidth (width);	// v 6.3.0
+	_yTextField->setMinimumWidth (width);	// v 6.3.0
+	_zTextField->setMinimumWidth (width);	// v 6.3.0
 
 	// Les boutons :
 	layout->addWidget (new QLabel (" ", this));
-	_closurePanel	= 
-		new QtDlgClosurePanel (this, false, "Appliquer", "", "Annuler",
-		                       helpURL, helpTag);
+	_closurePanel	= new QtDlgClosurePanel (this, false, "Appliquer", "", "Annuler", helpURL, helpTag);
 	layout->addWidget (_closurePanel);
 	_closurePanel->setMinimumSize (_closurePanel->sizeHint ( ));
-	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(accept ( )));
-	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(reject ( )));
+	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this, SLOT(accept ( )));
+	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this, SLOT(reject ( )));
 
 	// Par defaut le bouton OK est artificellement clique par QDialog quand
 	// l'utilisateur fait return dans un champ de texte => on inhibe ce
