@@ -2,19 +2,11 @@
 #include "QtUtil/QtConfiguration.h"
 #include "QtUtil/QtUnicodeHelper.h"
 
-#ifndef QT_5
-#include <QtGui/QHeaderView>
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWhatsThis>
-#else	// QT_5
 #include <QHeaderView>
 #include <QLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWhatsThis>
-#endif	// QT_5
 
 #include <assert.h>
 #include <iostream>

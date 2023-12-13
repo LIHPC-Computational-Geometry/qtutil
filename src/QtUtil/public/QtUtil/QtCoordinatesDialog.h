@@ -6,13 +6,8 @@
 #include <QtUtil/QtTextField.h>
 #include <QtUtil/QtDlgClosurePanel.h>
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QCheckBox>
-#else	// QT_5
 #include <QDialog>
 #include <QCheckBox>
-#endif	// QT_5
 
 
 /** Classe de boite de dialogue modale de saisie de coordonnées 3D.

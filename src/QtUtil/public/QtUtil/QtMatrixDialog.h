@@ -5,13 +5,9 @@
 #include <TkUtil/UTF8String.h>
 #include <QtUtil/QtDlgClosurePanel.h>
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QLineEdit>
-#else	// QT_5
+
 #include <QDialog>
 #include <QLineEdit>
-#endif	// QT_5
 
 
 /**

@@ -5,13 +5,8 @@
 #include <QtUtil/QtGroupBox.h>
 
 // MOC_SKIP_BEGIN
-#ifndef QT_5
-#include <QtGui/QListWidget>
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QListWidget>
 #include <QPushButton>
-#endif	// QT_5
 // MOC_SKIP_END
 
 #include <vector>

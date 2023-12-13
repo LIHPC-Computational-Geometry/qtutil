@@ -5,15 +5,9 @@
 static const TkUtil::Charset    charset ("àéèùô");
 USE_ENCODING_AUTODETECTION
 
-#ifndef QT_5
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#else	// QT_5
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#endif	// QT_5
 
 #include <assert.h>
 #include <iostream>
@@ -88,7 +82,11 @@ void QtExtMessageBox::createGui (
 	labelsbox->setLayout (labelsLayout);
 	vboxLayout->addWidget (labelsbox);
 	labelsLayout->setSpacing (QtConfiguration::spacing);
+#ifdef QT_5
 	labelsLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	labelsLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	QLabel*	iconLabel	= new QLabel (labelsbox);
 	iconLabel->setPixmap (QMessageBox::standardIcon (icon));
 	QLabel*	label	= new QLabel (UTF8TOQSTRING (text), labelsbox);
@@ -106,7 +104,11 @@ void QtExtMessageBox::createGui (
 	buttonsbox->setLayout (buttonsLayout);
 	vboxLayout->addWidget (buttonsbox);
 	buttonsLayout->setSpacing (QtConfiguration::spacing);
+#ifdef QT_5
 	buttonsLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	buttonsLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	_buttons [0]	= true == button1.empty ( ) ?
 				0 : new QPushButton (UTF8TOQSTRING (button1), buttonsbox);
 	_buttons [1]	= true == button2.empty ( ) ?
@@ -127,7 +129,11 @@ void QtExtMessageBox::createGui (
 		_buttons [defaultButton - 1]->setDefault (true);
 
 	vboxLayout->setSpacing (QtConfiguration::spacing);
+#ifdef QT_5
 	vboxLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	vboxLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	vbox->setFixedSize (vbox->sizeHint ( ));
 }	// QtExtMessageBox::createGui
 

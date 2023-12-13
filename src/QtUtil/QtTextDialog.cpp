@@ -3,11 +3,7 @@
 #include "QtUtil/QtUnicodeHelper.h"
 #include "QtUtil/QtGroupBox.h"
 
-#ifndef QT_5
-#include <QtGui/QLabel>
-#else	// QT_5
 #include <QLabel>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -17,20 +13,14 @@ USING_STD
 USING_UTIL
 
 
-QtTextDialog::QtTextDialog (
-			QWidget* parent, const UTF8String& title, 
-			const UTF8String& text, bool editable)
-	: QDialog (parent, QtConfiguration::modalDialogWFlags),
-	  _centralLayout (0), _textWindow (0), _closurePanel (0), _modified (false)
+QtTextDialog::QtTextDialog (QWidget* parent, const UTF8String& title, const UTF8String& text, bool editable)
+	: QDialog (parent, QtConfiguration::modalDialogWFlags), _centralLayout (0), _textWindow (0), _closurePanel (0), _modified (false)
 {	
 	createGui (title, text, editable);
 }	// QtTextDialog::QtTextDialog
 
 
-QtTextDialog::QtTextDialog (
-	QWidget* parent, const UTF8String& title, const UTF8String& text,
-	bool editable, const QFont& font, const QColor& foreground,
-	const QColor& background)
+QtTextDialog::QtTextDialog (QWidget* parent, const UTF8String& title, const UTF8String& text, bool editable, const QFont& font, const QColor& foreground, const QColor& background)
 {
 	createGui (title, "", editable);
 	assert (0 != _textWindow);
@@ -143,44 +133,41 @@ QTextEdit& QtTextDialog::getTextEditor ( )
 }	// QtTextDialog::getTextEditor
 
 
-void QtTextDialog::createGui (
-		const UTF8String & title, const UTF8String & text, bool editable)
+void QtTextDialog::createGui (const UTF8String & title, const UTF8String & text, bool editable)
 {
 	setModal (true);
 	setWindowTitle (UTF8TOQSTRING (title));
 
 	// Creation de l'ihm :
 	QVBoxLayout*	layout	= new QVBoxLayout (this);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
 	_centralLayout	= new QVBoxLayout ( );
 	_centralLayout->setSizeConstraint (QLayout::SetMinimumSize);
 	layout->addLayout (_centralLayout);
 	_textWindow	= new QTextEdit (this);
 	_textWindow->setText (UTF8TOQSTRING (text));
-	connect (_textWindow, SIGNAL(textChanged ( )), this, 
-	         SLOT (textModified ( )));
+	connect (_textWindow, SIGNAL(textChanged ( )), this, SLOT (textModified ( )));
 	_centralLayout->addWidget (_textWindow);
 	_textWindow->setMinimumSize (_textWindow->sizeHint ( ));
 
 	layout->addWidget (new QLabel (" ", this));
-	_closurePanel	= 
-		new QtDlgClosurePanel (this, false, "Appliquer", "", "Fermer", "", "");
+	_closurePanel	= new QtDlgClosurePanel (this, false, "Appliquer", "", "Fermer", "", "");
 	layout->addWidget (_closurePanel);
 	_closurePanel->setMinimumSize (_closurePanel->sizeHint ( ));
 
-	// Par defaut le bouton OK est artificellement clique par QDialog quand
-	// l'utilisateur fait return dans un champ de texte => on inhibe ce
-	// comportement par defaut :
+	// Par defaut le bouton OK est artificellement clique par QDialog quand l'utilisateur fait return dans un champ de texte => on inhibe ce comportement par defaut :
 	_closurePanel->getApplyButton ( )->setAutoDefault (false);
 	_closurePanel->getApplyButton ( )->setDefault (false);
 	_closurePanel->getApplyButton ( )->setEnabled (false);
 	_closurePanel->getCancelButton ( )->setAutoDefault (false);
 	_closurePanel->getCancelButton ( )->setDefault (false);
-	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(apply ( )));
-	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(reject ( )));
+	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this, SLOT(apply ( )));
+	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this, SLOT(reject ( )));
 
 	layout->activate ( );
 	setMinimumSize (layout->sizeHint ( ));

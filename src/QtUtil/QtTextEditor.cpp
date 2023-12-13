@@ -6,13 +6,8 @@
 
 #include <QTextBlock>
 #include <QPainter>
-#ifndef QT_5
-#include <QtGui/QAction>
-#include <QtGui/QMenu>
-#else	// QT_5
 #include <QAction>
 #include <QMenu>
-#endif	// QT_5
 
 #include <iostream>
 #include <memory>
@@ -37,16 +32,14 @@ QtTextEditor::QtLineNumberArea::QtLineNumberArea (QtTextEditor& editor)
 }	// QtLineNumberArea::QtLineNumberArea
 
 
-QtTextEditor::QtLineNumberArea::QtLineNumberArea (
-										const QtTextEditor::QtLineNumberArea&)
+QtTextEditor::QtLineNumberArea::QtLineNumberArea (const QtTextEditor::QtLineNumberArea&)
 	: QWidget (0)
 {
 	assert (0 && "QtLineNumberArea copy constructor is not allowed.");
 }	// QtLineNumberArea::QtLineNumberArea
 
 
-QtTextEditor::QtLineNumberArea& QtTextEditor::QtLineNumberArea::operator = (
-										const QtTextEditor::QtLineNumberArea&)
+QtTextEditor::QtLineNumberArea& QtTextEditor::QtLineNumberArea::operator = (const QtTextEditor::QtLineNumberArea&)
 {
 	assert (0 && "QtLineNumberArea assignment operator = is not allowed.");
 	return *this;
@@ -99,17 +92,13 @@ void QtTextEditor::QtLineNumberArea::paintEvent (QPaintEvent* event)
 // =============================================================================
 
 QtTextEditor::QtTextEditor (QWidget* parent, bool displayLinesNumbers)
-	: QPlainTextEdit (parent),
-	  _lineNumberArea (0), _displayLinesNumbers (displayLinesNumbers)
+	: QPlainTextEdit (parent), _lineNumberArea (0), _displayLinesNumbers (displayLinesNumbers)
 {
 	_lineNumberArea	= new QtTextEditor::QtLineNumberArea (*this);
 
-	connect (this, SIGNAL (blockCountChanged (int)), this,
-	         SLOT (updateLineNumberAreaWidthCallback (int)));
-	connect (this, SIGNAL (updateRequest (QRect, int)), this,
-	         SLOT (updateLineNumberAreaWidthCallback (QRect, int)));
-	connect (this, SIGNAL (cursorPositionChanged ( )), this,
-	         SLOT (cursorPositionCallback ( )));
+	connect (this, SIGNAL (blockCountChanged (int)), this, SLOT (updateLineNumberAreaWidthCallback (int)));
+	connect (this, SIGNAL (updateRequest (QRect, int)), this, SLOT (updateLineNumberAreaWidthCallback (QRect, int)));
+	connect (this, SIGNAL (cursorPositionChanged ( )), this, SLOT (cursorPositionCallback ( )));
 
 	updateLineNumberAreaWidthCallback (0);
 	cursorPositionCallback ( );
@@ -165,7 +154,11 @@ int QtTextEditor::lineNumberAreaWidth ( ) const
 		digits	+= 1;
 	}	// while (max >= 10)
 
+#ifdef QT_5
 	const int space	= 3 + digits * fontMetrics ( ).width (QLatin1Char ('9'));
+#else	// QT_5
+	const int space	= 3 + digits * fontMetrics ( ).horizontalAdvance (QLatin1Char ('9'));
+#endif	// QT_5
 
 	return space;
 }	// QtTextEditor::lineNumberAreaWidth
@@ -185,8 +178,7 @@ void QtTextEditor::drawLinesNumbers (const QRect& rect)
 		// On affiche les numéros de lignes correspondant au scroller :
 		QTextBlock	block	= firstVisibleBlock ( );
 		int			number	= block.blockNumber ( );
-		int			top		=
-			blockBoundingGeometry (block).translated (contentOffset ( )).top( );
+		int			top		= blockBoundingGeometry (block).translated (contentOffset ( )).top( );
 		int			bottom	= top + blockBoundingRect (block).height ( );
 
 		while ((block.isValid ( )) && (top <= rect.bottom ( )))
@@ -195,8 +187,7 @@ void QtTextEditor::drawLinesNumbers (const QRect& rect)
 			{
 				const QString	str	= QString::number (number + 1);
 				painter.setPen (Qt::black);
-				painter.drawText (0, top, getLineNumberArea ( ).width ( ),
-							fontMetrics ( ).height ( ), Qt::AlignRight, str);
+				painter.drawText (0, top, getLineNumberArea ( ).width ( ), fontMetrics ( ).height ( ), Qt::AlignRight, str);
 			}	// if ((true == block.isVisible ( )) && (bottom >= ...
 
 			block	= block.next ( );
@@ -208,8 +199,7 @@ void QtTextEditor::drawLinesNumbers (const QRect& rect)
 	catch (const Exception& exc)
 	{
 		UTF8String	message (charset);
-		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : "
-		     << exc.getFullMessage ( );
+		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : " << exc.getFullMessage ( );
 		ConsoleOutput::cerr ( ) << message << co_endl;
 	}
 	catch (...)
@@ -241,14 +231,12 @@ void QtTextEditor::resizeEvent (QResizeEvent* event)
 		QPlainTextEdit::resizeEvent (event);
 
 		const QRect	rect	= contentsRect ( );
-		getLineNumberArea ( ).setGeometry (QRect (
-			rect.left( ), rect.top( ), lineNumberAreaWidth( ), rect.height( )));
+		getLineNumberArea ( ).setGeometry (QRect (rect.left( ), rect.top( ), lineNumberAreaWidth( ), rect.height( )));
 	}
 	catch (const Exception& exc)
 	{
 		UTF8String	message (charset);
-		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : "
-		     << exc.getFullMessage ( );
+		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : " << exc.getFullMessage ( );
 		ConsoleOutput::cerr ( ) << message << co_endl;
 	}
 	catch (...)
@@ -264,8 +252,7 @@ const QtTextEditor::QtLineNumberArea& QtTextEditor::getLineNumberArea ( ) const
 {
 	if (0 == _lineNumberArea)
 	{
-		INTERNAL_ERROR (exc, "Zone d'affichage des numéros de ligne nulle.",
-		                "QtTextEditor::getLineNumberArea")
+		INTERNAL_ERROR (exc, "Zone d'affichage des numéros de ligne nulle.", "QtTextEditor::getLineNumberArea")
 		throw exc;
 	}	// if (0 == _lineNumberArea)
 
@@ -277,8 +264,7 @@ QtTextEditor::QtLineNumberArea& QtTextEditor::getLineNumberArea ( )
 {
 	if (0 == _lineNumberArea)
 	{
-		INTERNAL_ERROR (exc, "Zone d'affichage des numéros de ligne nulle.",
-		                "QtTextEditor::getLineNumberArea")
+		INTERNAL_ERROR (exc, "Zone d'affichage des numéros de ligne nulle.", "QtTextEditor::getLineNumberArea")
 		throw exc;
 	}	// if (0 == _lineNumberArea)
 
@@ -294,13 +280,10 @@ QMenu* QtTextEditor::createPopupMenu ( )
 	{
 		CHECK_NULL_PTR_ERROR (menu)
 		menu->addSeparator ( );
-		QAction*	linesAction	=
-			new QAction (QSTR ("Afficher les numéros de ligne"), this);
+		QAction*	linesAction	= new QAction (QSTR ("Afficher les numéros de ligne"), this);
 		linesAction->setCheckable (true);
-		linesAction->setChecked (
-				true == displayLinesNumbers ( ) ? Qt::Checked : Qt::Unchecked);
-		connect (linesAction, SIGNAL (toggled (bool)), this,
-		         SLOT (displayLinesNumbersCallback ( )));
+		linesAction->setChecked (true == displayLinesNumbers ( ) ? Qt::Checked : Qt::Unchecked);
+		connect (linesAction, SIGNAL (toggled (bool)), this, SLOT (displayLinesNumbersCallback ( )));
 		menu->addAction (linesAction);
 	}
 	catch (...)
@@ -320,8 +303,7 @@ void QtTextEditor::updateLineNumberAreaWidthCallback (int /* blockCount*/)
 	catch (const Exception& exc)
 	{
 		UTF8String	message (charset);
-		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : "
-		     << exc.getFullMessage ( );
+		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : " << exc.getFullMessage ( );
 		ConsoleOutput::cerr ( ) << message << co_endl;
 	}
 	catch (...)
@@ -342,8 +324,7 @@ void QtTextEditor::updateLineNumberAreaWidthCallback (const QRect& rect, int dy)
 		if (0 != dy)
 			getLineNumberArea ( ).scroll (0, dy);
 		else
-			getLineNumberArea ( ).update (
-				0, rect.y ( ), getLineNumberArea( ).width ( ), rect.height ( ));
+			getLineNumberArea ( ).update (0, rect.y ( ), getLineNumberArea( ).width ( ), rect.height ( ));
 
 		if (true == rect.contains (viewport ( )->rect ( )))
 			updateLineNumberAreaWidthCallback (0);
@@ -351,8 +332,7 @@ void QtTextEditor::updateLineNumberAreaWidthCallback (const QRect& rect, int dy)
 	catch (const Exception& exc)
 	{
 		UTF8String	message (charset);
-		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : "
-		     << exc.getFullMessage ( );
+		message << __FILE__ << ' ' << (unsigned long)__LINE__ << " Exception levée : " << exc.getFullMessage ( );
 		ConsoleOutput::cerr ( ) << message << co_endl;
 	}
 	catch (...)

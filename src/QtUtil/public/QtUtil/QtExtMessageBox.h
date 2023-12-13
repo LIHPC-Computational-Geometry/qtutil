@@ -1,17 +1,11 @@
 #ifndef QT_EXT_MESSAGE_BOX_H
 #define QT_EXT_MESSAGE_BOX_H
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QCheckBox>
-#else	// QT_5
 #include <QDialog>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QCheckBox>
-#endif	// QT_5
+
 #include <TkUtil/UTF8String.h>
 
 

@@ -25,9 +25,7 @@ class QtCoordinatesTextField : public QtValidatedTextField
 	 *			utilisée lors de l'affichage des coordonnées initiales, un
 	 *			objectif étant de faire la ligne la plus courte possible).
 	 */
-	QtCoordinatesTextField (
-					QWidget* parent, double x, double y, double z,
-					unsigned short precision = 9);
+	QtCoordinatesTextField (QWidget* parent, double x, double y, double z, unsigned short precision = 9);
 
 	/**
 	 * Destructeur. RAS.

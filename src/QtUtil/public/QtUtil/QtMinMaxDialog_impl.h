@@ -1,16 +1,9 @@
 #include <QtUtil/QtConfiguration.h>
 #include <TkUtil/Exception.h>
 
-
-#ifndef QT_5
-#include <QtGui/QFrame>
-#include <QtGui/QLabel>
-#include <QtGui/QLayout>
-#else	// QT_5
 #include <QFrame>
 #include <QLabel>
 #include <QLayout>
-#endif	// QT_5
 
 #include <assert.h>
 #include <values.h>
@@ -30,7 +23,11 @@ template <class T, class TF> QtMinMaxDialog<T, TF>::QtMinMaxDialog (
 	setWindowTitle (QString (title.c_str ( )));
 
 	QGridLayout*	layout	= new QGridLayout (this);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
 
 	int	row	= 0, col	= 0;
@@ -56,14 +53,11 @@ template <class T, class TF> QtMinMaxDialog<T, TF>::QtMinMaxDialog (
 	row++;	col	= 0;
 
 	// La fermeture :
-	_closurePanel	= new QtDlgClosurePanel (
-							this, false, "OK", "", "Annuler", helpURL, helpTag);
+	_closurePanel	= new QtDlgClosurePanel (this, false, "OK", "", "Annuler", helpURL, helpTag);
 	layout->addWidget (_closurePanel, row, col, 1, 2);
 	_closurePanel->setMinimumSize (_closurePanel->sizeHint ( ));
-	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(accept ( )));
-	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this,
-	         SLOT(reject ( )));
+	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this, SLOT(accept ( )));
+	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this, SLOT(reject ( )));
 
 	_closurePanel->getApplyButton ( )->setAutoDefault (false);
 	_closurePanel->getApplyButton ( )->setDefault (false);
@@ -75,8 +69,7 @@ template <class T, class TF> QtMinMaxDialog<T, TF>::QtMinMaxDialog (
 }	// QtMinMaxDialog::QtMinMaxDialog
 
 
-template <class T, class TF> QtMinMaxDialog<T, TF>::QtMinMaxDialog (
-											const QtMinMaxDialog<T, TF>& view)
+template <class T, class TF> QtMinMaxDialog<T, TF>::QtMinMaxDialog (const QtMinMaxDialog<T, TF>& view)
 	: QDialog (0),
 	  _minTextField (0), _maxTextField (0), _closurePanel (0), _appTitle ( )
 {
@@ -97,16 +90,14 @@ template <class T, class TF> QtMinMaxDialog<T, TF>::~QtMinMaxDialog ( )
 }	// QtMinMaxDialog::~QtMinMaxDialog
 
 
-template <class T, class TF> void QtMinMaxDialog <T, TF>::setMinRange (
-																T min, T max)
+template <class T, class TF> void QtMinMaxDialog <T, TF>::setMinRange (T min, T max)
 {
 	assert (0 != _minTextField);
 	_minTextField->setRange (min, max);
 }	// QtMinMaxDialog::setMinRange
 
 
-template <class T, class TF> void QtMinMaxDialog <T, TF>::setMaxRange (
-																T min, T max)
+template <class T, class TF> void QtMinMaxDialog <T, TF>::setMaxRange (T min, T max)
 {
 	assert (0 != _maxTextField);
 	_maxTextField->setRange (min, max);

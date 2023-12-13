@@ -61,10 +61,15 @@ void QtColorChooser::createGui (const UTF8String& label, const Color& color)
 	layout->addWidget (button);
 	_colorLabel	= new QLabel ("          ", this);
 	_colorLabel->setAutoFillBackground (true);
-	QPalette	palette (_colorLabel->palette ( ));
 	QColor		qcolor (color.getRed( ), color.getGreen( ), color.getBlue( ));
+#ifdef QT_5
+	QPalette	palette (_colorLabel->palette ( ));
 	palette.setBrush (QPalette::Background, qcolor);
 	_colorLabel->setPalette (palette);
+#else	// QT_5
+	QString	backgroundLabel ("background-color:");
+	_colorLabel->setStyleSheet (backgroundLabel + qcolor.name ( ));	// => background-color:#RRGGBB
+#endif	// QT_5
 	layout->addWidget (_colorLabel );
 
 	connect (button, SIGNAL (clicked (bool)), this, SLOT (clickedCallback ( )));
@@ -83,9 +88,14 @@ QColor QtColorChooser::getQColor ( ) const
 void QtColorChooser::setQColor (const QColor& color)
 {
 	assert ((0 != _colorLabel) && "QtColorChooser::setQColor : null color label.");
+#ifdef QT_5
 	QPalette	palette (_colorLabel->palette ( ));
 	palette.setBrush (QPalette::Background, color);
 	_colorLabel->setPalette (palette);
+#else	// QT_5
+	QString	backgroundLabel ("background-color:");
+	_colorLabel->setStyleSheet (backgroundLabel + color.name ( ));	// => background-color:#RRGGBB
+#endif	// QT_5
 }	// QtColorChooser::setQColor
 
 
@@ -115,9 +125,14 @@ void QtColorChooser::clickedCallback ( )
 	if (current == color)
 		return;
 
+#ifdef QT_5
 	QPalette	palette (_colorLabel->palette ( ));
 	palette.setBrush (QPalette::Background, color);
 	_colorLabel->setPalette (palette);
+#else	// QT_5
+	QString	backgroundLabel ("background-color:");
+	_colorLabel->setStyleSheet (backgroundLabel + color.name ( ));	// => background-color:#RRGGBB
+#endif	// QT_5
 
 	emit (colorChanged (color));
 }	// QtColorChooser::clickedCallback

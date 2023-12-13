@@ -8,15 +8,14 @@
 #include <assert.h>
 
 #include <QCursor>
-#ifndef QT_5
-#include <QtGui/QApplication>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QMessageBox>
-#else	// QT_5
 #include <QApplication>
+#ifdef QT_5
 #include <QDesktopWidget>
-#include <QMessageBox>
+#else	// QT_5
+#include <QGuiApplication>
+#include <QScreen>
 #endif	// QT_5
+#include <QMessageBox>
 
 
 USING_UTIL
@@ -61,40 +60,31 @@ USE_ENCODING_AUTODETECTION
 
 #include "QtUtil/QtConfiguration.h"
 
-#ifndef QT_5
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QTextEdit>
-#else	// QT_5
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QTextEdit>
-#endif	// QT_5
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QTextEdit>
 
 
-QtMessageDialog::QtMessageDialog (
-	QMessageBox::Icon icon, QWidget* parent,
-	const QString& title, const QString& text, int columns,
-	const char* button1, const char* button2, const char* button3,
-	int defaultButton)
+QtMessageDialog::QtMessageDialog (QMessageBox::Icon icon, QWidget* parent, const QString& title, const QString& text, int columns, const char* button1, const char* button2, const char* button3, int defaultButton)
 	: QDialog (parent)
 {	
 	setWindowTitle (title);
 
 	QVBoxLayout*	mainLayout	= new QVBoxLayout (this);
 	mainLayout->setSpacing (QtConfiguration::spacing);
+#ifdef QT_5
 	mainLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	mainLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 
 	QHBoxLayout*	hboxLayout	= new QHBoxLayout ( );
 	mainLayout->addLayout (hboxLayout);
 	QLabel*			iconLabel	= new QLabel (this);
 	iconLabel->setPixmap (QMessageBox::standardIcon (icon));
 	hboxLayout->addWidget (iconLabel);
-	QString	formattedText	=
-		UTF8TOQSTRING (
-				QtUnicodeHelper::qstringToUTF8String (text).format (columns));
+	QString	formattedText	= UTF8TOQSTRING (QtUnicodeHelper::qstringToUTF8String (text).format (columns));
 	QTextEdit*	textEdit	= new QTextEdit (this);
 	textEdit->setReadOnly (true);
 	textEdit->setLineWrapMode (QTextEdit::NoWrap);
@@ -116,8 +106,7 @@ QtMessageDialog::QtMessageDialog (
 		if (0 != _buttons [i])
 		{
 			hboxLayout->addWidget (_buttons [i]);
-			connect (_buttons [i], SIGNAL(clicked ( )), this,
-			         SLOT (buttonClicked ( )));
+			connect (_buttons [i], SIGNAL(clicked ( )), this, SLOT (buttonClicked ( )));
 			_buttons [i]->setDefault (defaultButton == i ? true : false);
 			_buttons [i]->setAutoDefault (defaultButton == i ? true : false);
 		}
@@ -133,6 +122,7 @@ QtMessageDialog::QtMessageDialog (
 	int	height	= (int)textEdit->document ( )->size ( ).height ( );
 	height	+= 2 * QtConfiguration::margin;
 	// Les dimensions calculées sont elles acceptables ?
+#ifdef QT_5
 	QDesktopWidget*	desktop	= QApplication::desktop ( );
 	if (0 != desktop)
 	{
@@ -142,6 +132,17 @@ QtMessageDialog::QtMessageDialog (
 		if (2 * height > screenSize.height ( ))
 			height	= screenSize.height ( ) / 2;
 	}	// if (0 != desktop)
+#else	// QT_5
+	QScreen*	screen	= QGuiApplication::primaryScreen ( );
+	if (0 != screen)
+	{
+		const QRect	screenSize	= screen->virtualGeometry ( );
+		if (2 * width > screenSize.width ( ))
+			width	= screenSize.width ( ) / 2;
+		if (2 * height > screenSize.height ( ))
+			height	= screenSize.height ( ) / 2;
+	}	// if (0 != screen)
+#endif	// QT_5
 	textEdit->setMinimumSize (QSize (width, height));
 	textEdit->setFixedSize (QSize (width, height));
 	setMinimumSize (sizeHint ( ));
@@ -208,20 +209,13 @@ QtMessageBox::~QtMessageBox ( )
 }	// QtMessageBox::~QtMessageBox
 
 
-void QtMessageBox::displayInformationMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum)
+void QtMessageBox::displayInformationMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum)
 {
 	displayInformationMessage (parent, title, message, columnNum, "OK");
 }	// QtMessageBox::displayInformationMessage
 
 
-int QtMessageBox::displayInformationMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum,
-				const char* button0Text, const char* button1Text,
-				const char* button2Text, int defaultButtonNumber
-		)
+int QtMessageBox::displayInformationMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum, const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
 {
 	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
 
@@ -229,11 +223,7 @@ int QtMessageBox::displayInformationMessage (
 
 	BEGIN_TRY_CATCH_BLOCK
 
-	QtMessageDialog	dialog (
-		QMessageBox::Information, parent, 
-		UTF8TOQSTRING (title),
-		UTF8TOQSTRING (message), columnNum,
-		button0Text, button1Text, button2Text, defaultButtonNumber);
+	QtMessageDialog	dialog (QMessageBox::Information, parent, UTF8TOQSTRING (title), UTF8TOQSTRING (message), columnNum, button0Text, button1Text, button2Text, defaultButtonNumber);
 	button	= (QMessageBox::StandardButton)dialog.exec ( );
 	COMPLETE_TRY_CATCH_BLOCK
 
@@ -243,20 +233,13 @@ int QtMessageBox::displayInformationMessage (
 }	// QtMessageBox::displayInformationMessage
 
 
-void QtMessageBox::displayWarningMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum)
+void QtMessageBox::displayWarningMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum)
 {
 	displayWarningMessage (parent, title, message, columnNum, "OK");
 }	// QtMessageBox::displayWarningMessage
 
 
-int QtMessageBox::displayWarningMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum,
-				const char* button0Text, const char* button1Text,
-				const char* button2Text, int defaultButtonNumber
-		)
+int QtMessageBox::displayWarningMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum, const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
 {
 	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
 
@@ -264,11 +247,7 @@ int QtMessageBox::displayWarningMessage (
 
 	BEGIN_TRY_CATCH_BLOCK
 
-	QtMessageDialog	dialog (
-		QMessageBox::Warning, parent, 
-		UTF8TOQSTRING (title),
-		UTF8TOQSTRING (message), columnNum,
-		button0Text, button1Text, button2Text, defaultButtonNumber);
+	QtMessageDialog	dialog (QMessageBox::Warning, parent, UTF8TOQSTRING (title), UTF8TOQSTRING (message), columnNum, button0Text, button1Text, button2Text, defaultButtonNumber);
 	button	= (QMessageBox::StandardButton)dialog.exec ( );
 
 	COMPLETE_TRY_CATCH_BLOCK
@@ -279,20 +258,13 @@ int QtMessageBox::displayWarningMessage (
 }	// QtMessageBox::displayWarningMessage
 
 
-void QtMessageBox::displayErrorMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum)
+void QtMessageBox::displayErrorMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum)
 {
 	displayErrorMessage (parent, title, message, columnNum, "OK");
 }	// QtMessageBox::displayErrorMessage
 
 
-int QtMessageBox::displayErrorMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum,
-				const char* button0Text, const char* button1Text,
-				const char* button2Text, int defaultButtonNumber
-		)
+int QtMessageBox::displayErrorMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum, const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
 {
 	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
 
@@ -300,11 +272,7 @@ int QtMessageBox::displayErrorMessage (
 
 	BEGIN_TRY_CATCH_BLOCK
 
-	QtMessageDialog	dialog (
-		QMessageBox::Critical, parent, 
-		UTF8TOQSTRING (title),
-		UTF8TOQSTRING (message), columnNum,
-		button0Text, button1Text, button2Text, defaultButtonNumber);
+	QtMessageDialog	dialog (QMessageBox::Critical, parent, UTF8TOQSTRING (title),UTF8TOQSTRING (message), columnNum, button0Text, button1Text, button2Text, defaultButtonNumber);
 	button	= (QMessageBox::StandardButton)dialog.exec ( );
 
 	COMPLETE_TRY_CATCH_BLOCK
@@ -315,12 +283,7 @@ int QtMessageBox::displayErrorMessage (
 }	// QtMessageBox::displayErrorMessage
 
 
-int QtMessageBox::displayQuestionMessage (
-				QWidget* parent, const UTF8String& title, 
-				const UTF8String& message, size_t columnNum,
-				const char* button0Text, const char* button1Text,
-				const char* button2Text, int defaultButtonNumber
-		)
+int QtMessageBox::displayQuestionMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum,const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
 {
 	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
 
@@ -328,11 +291,7 @@ int QtMessageBox::displayQuestionMessage (
 
 	BEGIN_TRY_CATCH_BLOCK
 
-	QtMessageDialog	dialog (
-		QMessageBox::Question, parent, 
-		UTF8TOQSTRING (title),
-		UTF8TOQSTRING (message), columnNum,
-		button0Text, button1Text, button2Text, defaultButtonNumber);
+	QtMessageDialog	dialog (QMessageBox::Question, parent, UTF8TOQSTRING (title), UTF8TOQSTRING (message), columnNum, button0Text, button1Text, button2Text, defaultButtonNumber);
 	button	= (QMessageBox::StandardButton)dialog.exec ( );
 
 	COMPLETE_TRY_CATCH_BLOCK

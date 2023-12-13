@@ -13,28 +13,15 @@
 #include <QPainter>
 #include <QUrl>
 #include <QFileInfo>
-#ifndef QT_5
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QMainWindow>
-#include <QtGui/QApplication>
-#include <QtGui/QStatusBar>
-#include <QtGui/QToolBar>
-#else	// QT_5
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QMainWindow>
 #include <QApplication>
 #include <QStatusBar>
 #include <QToolBar>
-#endif	// QT_5
 #ifdef USE_QT_WEBKIT
 #include <QNetworkCookieJar>
-#ifndef QT_5
-#include <QtGui/QPrintPreviewDialog>
-#else	// QT_5
 #include <QPrintPreviewDialog>
-#endif	// QT_5
 #include <QWebElement>
 #include <QWebFrame>
 #include <QWebHistory>

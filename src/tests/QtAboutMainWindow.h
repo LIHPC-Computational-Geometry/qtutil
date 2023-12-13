@@ -9,13 +9,8 @@
 
 #include <TkUtil/LogDispatcher.h>
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QMainWindow>
-#else	// QT_5
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QMainWindow>
-#endif	// QT_5
+#include <QDialog>
+#include <QMainWindow>
 
 
 class QtAboutMainWindow : public QMainWindow

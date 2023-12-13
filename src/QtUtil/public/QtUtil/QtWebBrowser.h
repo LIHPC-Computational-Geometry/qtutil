@@ -3,25 +3,17 @@
 
 #include <TkUtil/util_config.h>
 
-#ifndef QT_5
-#include <QtGui/QMainWindow>
-#include <QtGui/QToolButton>
-#else	// QT_5
+
 #include <QMainWindow>
 #include <QToolButton>
-#endif	// QT_5
 #ifdef USE_QT_WEBKIT
 #include <QWebView>
 #else	// USE_QT_WEBKIT
-#ifndef QT_5
-#include <QtGui/QTextBrowser>
-#else	// QT_5
 #ifdef USE_QT_WEBENGINE
 #include <QWebEngineView>
 #else
 #include <QTextBrowser>
 #endif	// USE_QT_WEBENGINE
-#endif	// QT_5
 #endif	// USE_QT_WEBKIT
 
 #include <QPrinter>

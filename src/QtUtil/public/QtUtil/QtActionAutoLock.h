@@ -1,11 +1,7 @@
 #ifndef QT_ACTION_AUTO_LOCK_H
 #define QT_ACTION_AUTO_LOCK_H
 
-#ifndef QT_5
-#include <QtGui/QAction>
-#else	// QT_5
 #include <QAction>
-#endif	// QT_5
 
 
 /** Classe permettant de verrouiller l'emission de signaux d'une action.

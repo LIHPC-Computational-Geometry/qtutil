@@ -7,19 +7,11 @@
 #include <TkUtil/Exception.h>
 
 #include <QValidator>
-#ifndef QT_5
-#include <QtGui/QLabel>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QMessageBox>
-#else	// QT_5
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QButtonGroup>
 #include <QMessageBox>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -50,7 +42,11 @@ QtRotationDialog::QtRotationDialog (
 
 	// Creation de l'ihm :
 	QVBoxLayout*	layout	= new QVBoxLayout (this);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
 
 	// Le panneau :
@@ -85,7 +81,11 @@ QtRotationDialog::QtRotationDialog (
 	QWidget*		hbox		= new QWidget (this);
 	QHBoxLayout*	hboxLayout	= new QHBoxLayout ( );
 	hbox->setLayout (hboxLayout);
+#ifdef QT_5
 	hboxLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	hboxLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	hboxLayout->setSpacing (QtConfiguration::spacing);
 	layout->addWidget (hbox);
 	QLabel*	label	= new QLabel ("Angle : ", hbox);

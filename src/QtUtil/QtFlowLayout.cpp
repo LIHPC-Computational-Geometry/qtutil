@@ -39,11 +39,7 @@
 ****************************************************************************/
 
 #include <QtGui>
-#ifndef QT_5
-#include <QtGui/QWidget>	// requested by Qt 5.8.0
-#else	// QT_5
-#include <QWidget>	// requested by Qt 5.8.0
-#endif	// QT_5
+#include <QWidget>
 
 #include "QtUtil/QtFlowLayout.h"
 //! [1]
@@ -119,7 +115,7 @@ QLayoutItem *QtFlowLayout::takeAt(int index)
 //! [6]
 Qt::Orientations QtFlowLayout::expandingDirections() const
 {
-    return 0;
+    return Qt::Horizontal;
 }
 //! [6]
 
@@ -155,7 +151,12 @@ QSize QtFlowLayout::minimumSize() const
     foreach (item, itemList)
         size = size.expandedTo(item->minimumSize());
 
+#ifdef QT_5
     size += QSize(2*margin(), 2*margin());
+#else	// QT_5
+	const QMargins	margins	= contentsMargins ( );
+	size	+= QSize (margins.left ( ) + margins.right ( ), margins.top ( ) + margins.bottom ( ));
+#endif	// QT_5
     return size;
 }
 //! [8]

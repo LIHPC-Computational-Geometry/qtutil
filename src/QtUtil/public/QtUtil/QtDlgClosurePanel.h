@@ -3,13 +3,8 @@
 
 #include <TkUtil/util_config.h>
 
-#ifndef QT_5
-#include <QtGui/QWidget>
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QWidget>
 #include <QPushButton>
-#endif	// QT_5
 
 #include <string>
 

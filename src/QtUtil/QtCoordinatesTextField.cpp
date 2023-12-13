@@ -14,7 +14,11 @@
 #include <TkUtil/NumericConversions.h>
 #include <TkUtil/NumericServices.h>
 
-#include <QRegExpValidator>
+#ifdef QT_5
+#	include <QRegExpValidator>
+#else	// QT_5
+#	include <QRegularExpressionValidator>
+#endif	// QT_5
 
 #include <assert.h>
 #include <string.h>
@@ -38,22 +42,36 @@ USE_ENCODING_AUTODETECTION
  * classe évalue où est effectuée la modification et retourne
  * <I>Intermediate</I> si elle est valide du début à ce point.
  */
+#ifdef QT_5
 class QtRegExpValidator : public QRegExpValidator
+#else	// QT_5
+class QtRegExpValidator : QRegularExpressionValidator
+#endif	// QT_5
 {
 	public :
 
 	QtRegExpValidator (QObject* parent)
+#ifdef QT_5
 		: QRegExpValidator (parent)
+#else	// QT_5
+		: QRegularExpressionValidator (parent)
+#endif	// QT_5
 	{ }
+#ifdef QT_5
 	QtRegExpValidator (const QRegExp& exp, QObject* parent)
 		: QRegExpValidator (exp, parent)
+#else	// QT_5
+	QtRegExpValidator (const QRegularExpression& exp, QObject* parent)
+		: QRegularExpressionValidator (exp, parent)
+#endif	// QT_5
 	{ }
 	virtual ~QtRegExpValidator ( )
 	{ }
 
 	virtual QValidator::State validate (QString& input, int& pos ) const
 	{
-		if (regExp ( ).exactMatch(input))
+#ifdef QT_5
+		if (regExp ( ).exactMatch (input))
 			return Acceptable;
 		else
 		{
@@ -65,8 +83,15 @@ class QtRegExpValidator : public QRegExpValidator
 				pos = input.size();
 				return Invalid;
 			}
-		}
+		}	// else
+#else	// QT_5
+		QRegularExpressionMatch	match	= regularExpression ( ).match (input);
 
+		if (false == match.hasMatch ( ))
+			return QValidator::Invalid;
+		
+		return true == match.hasPartialMatch ( ) ? QValidator::Intermediate : QValidator::Acceptable;
+#endif	// QT_5
 	}	// QValidator::State
 
 
@@ -77,8 +102,7 @@ class QtRegExpValidator : public QRegExpValidator
 };	// class QtRegExpValidator
 
 
-QtCoordinatesTextField::QtCoordinatesTextField (
-		QWidget* parent, double x, double y, double z, unsigned short precision)
+QtCoordinatesTextField::QtCoordinatesTextField (QWidget* parent, double x, double y, double z, unsigned short precision)
 	: QtValidatedTextField (parent, false), _precision (precision)
 {
 	setCoordinates (x, y, z);
@@ -91,8 +115,14 @@ QtCoordinatesTextField::QtCoordinatesTextField (
 	coordsExp << "\\(" << espaces << doubleExp << espaces
 	          << "[,]" << espaces << doubleExp << espaces
 	          << "[,]" << espaces << doubleExp << espaces << "\\)";
+#ifdef QT_5
 	QRegExp	expression (coordsExp.iso ( ).c_str ( ));
 	QtRegExpValidator*	validator	= new QtRegExpValidator (expression, this);
+#else	// QT_5
+	QRegularExpression				expression (coordsExp.iso ( ).c_str ( ));
+	QRegularExpressionValidator*	validator	= new QRegularExpressionValidator (expression, this);
+
+#endif	// QT_5
 	setValidator (validator);
 }	// QtCoordinatesTextField::QtCoordinatesTextField
 
@@ -104,8 +134,7 @@ QtCoordinatesTextField::QtCoordinatesTextField (const QtCoordinatesTextField&)
 }	// QtCoordinatesTextField::QtCoordinatesTextField
 
 
-QtCoordinatesTextField& QtCoordinatesTextField::operator = (
-												const QtCoordinatesTextField&)
+QtCoordinatesTextField& QtCoordinatesTextField::operator = (const QtCoordinatesTextField&)
 {
 	assert (0 && "QtCoordinatesTextField assignment operator is not allowed.");
 	return *this;
@@ -117,8 +146,7 @@ QtCoordinatesTextField::~QtCoordinatesTextField ()
 }	// QtCoordinatesTextField::~QtCoordinatesTextField
 
 
-void QtCoordinatesTextField::getCoordinates (
-										double& x, double& y, double& z) const
+void QtCoordinatesTextField::getCoordinates (double& x, double& y, double& z) const
 {
 	const string			coords	= text ( ).toStdString ( );
 	const string::size_type	beg		= coords.find ("(");
@@ -126,8 +154,7 @@ void QtCoordinatesTextField::getCoordinates (
 	if ((string::npos == beg) || (string::npos == end))
 	{
 		UTF8String	error (charset);
-		error << "Erreur lors de l'extraction des composantes des coordonnées\n"
-		      << coords;
+		error << "Erreur lors de l'extraction des composantes des coordonnées\n" << coords;
 		throw Exception (error);
 	}	// if ((string::npos == beg) || (string::npos == end))
 
@@ -137,8 +164,7 @@ void QtCoordinatesTextField::getCoordinates (
 	if ((string::npos == c1) || (string::npos == c2))
 	{
 		UTF8String	error (charset);
-		error << "Erreur lors de l'extraction des composantes des coordonnées\n"
-		      << coords;
+		error << "Erreur lors de l'extraction des composantes des coordonnées\n" << coords;
 		throw Exception (error);
 	}	// if ((string::npos == beg) || (string::npos == end))
 	const string	xVal	= values.substr (0, c1 - 1);
@@ -190,12 +216,8 @@ bool QtCoordinatesTextField::validate ( )
 		if (QValidator::Acceptable != v->validate (tValue, pos))
 		{
 			UTF8String	errorMsg (charset);
-			errorMsg << "Valeur "
-					<< tValue.toStdString ( )
-			        << " incorrecte. La valeur doit être du type (x, y, z)"
-			        << "\n"
-			        << "où x, y et z sont des réels en notation scientifique ("
-			        << "ex : 0.123, -1.4e-2, ...).";
+			errorMsg << "Valeur " << tValue.toStdString ( ) << " incorrecte. La valeur doit être du type (x, y, z)\n"
+			        << "où x, y et z sont des réels en notation scientifique (ex : 0.123, -1.4e-2, ...).";
 			throw Exception (errorMsg);
 		}	// if (QValidator::Acceptable != v->validate (tValue, pos))
 		setSkin (true);
@@ -204,16 +226,14 @@ bool QtCoordinatesTextField::validate ( )
 	{
 		setSkin (false);
 		if (true == dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", exc.getFullMessage ( ));
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", exc.getFullMessage ( ));
 		return false;
 	}
 	catch (...)
 	{
 		setSkin (false);
 		if (true == dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", "Erreur non documentée.");
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", "Erreur non documentée.");
 		return false;
 	}
 

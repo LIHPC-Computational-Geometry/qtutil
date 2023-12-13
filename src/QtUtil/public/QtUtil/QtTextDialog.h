@@ -5,15 +5,9 @@
 #include <TkUtil/UTF8String.h>
 #include <QtUtil/QtDlgClosurePanel.h>
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QLayout>
-#include <QtGui/QTextEdit>
-#else	// QT_5
 #include <QDialog>
 #include <QLayout>
 #include <QTextEdit>
-#endif	// QT_5
 
 
 /** Classe de boite de dialogue modale de saisie d'une page de texte.

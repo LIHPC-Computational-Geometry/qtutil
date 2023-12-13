@@ -7,15 +7,9 @@
 #include <QPalette>
 #include <QAbstractTextDocumentLayout>
 #include <QTextDocument>
-#ifndef QT_5
-#include <QtGui/QApplication>
-#include <QtGui/QStyle>
-#include <QtGui/QStylePainter>
-#else	// QT_5
 #include <QApplication>
 #include <QStyle>
 #include <QStylePainter>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -47,10 +41,16 @@ QSize QtRichTextComboBox::sizeHint ( ) const
 		height	= height >  size.height ( ) ? height : size.height ( );
 	}	// for (int i = 0; i < count ( ); i++)
 
+#ifdef QT_5
 	int	left = 0, right	= 0, top = 0, bottom = 0;
 	getContentsMargins (&left, &top, &right, &bottom);
 	width	+= left + right;
 	height	+= top + bottom;
+#else	// QT_5
+	const QMargins	margins	= contentsMargins ( );
+	width	+= margins.left ( ) + margins.right ( );
+	height	+= margins.top ( ) + margins.bottom ( );
+#endif	// QT_5
 	// Pour une raison non élucidée un deltax est esthétiquement souhaitable :
 //	width	+= 2 * QtConfiguration::margin;
 
@@ -61,7 +61,9 @@ QSize QtRichTextComboBox::sizeHint ( ) const
 	QStyleOptionComboBox	opt;
 	initStyleOption (&opt);
 	size	= cbStyle->sizeFromContents (QStyle::CT_ComboBox, &opt, size, this);
+#ifdef QT_5
 	size	= size.expandedTo (QApplication::globalStrut ( ));
+#endif	// QT_5
 
 	return size;
 }	// sizeHint
@@ -92,7 +94,11 @@ void QtRichTextComboBox::paintEvent (QPaintEvent*)
 	QRectF	rect (0, 0, 0, 0);
 	rect.setSize (sizeHint ( ));
 	int	left = 0, right	= 0, top = 0, bottom = 0;
+#ifdef QT_5
 	getContentsMargins (&left, &top, &right, &bottom);
+#else	// QT_5
+	left	= contentsMargins ( ).left ( );
+#endif	// QT_5
 	// Pour une raison non élucidée un deltax est esthétiquement
 	// souhaitable (left et autres sont nuls) :
 	painter.translate (left + QtConfiguration::margin, 0);

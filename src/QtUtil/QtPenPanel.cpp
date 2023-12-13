@@ -6,15 +6,9 @@
 #include <TkUtil/MemoryError.h>
 
 #include <QPen>
-#ifndef QT_5
-#include <QtGui/QLabel>
-#include <QtGui/QLayout>
-#include <QtGui/QColorDialog>
-#else	// QT_5
 #include <QLabel>
 #include <QLayout>
 #include <QColorDialog>
-#endif	// QT_5
 
 #include <assert.h>
 

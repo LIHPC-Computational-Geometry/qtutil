@@ -3,13 +3,8 @@
 
 #include <assert.h>
 
-#ifndef QT_5
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#else	// QT_5
 #include <QHBoxLayout>
 #include <QLabel>
-#endif	// QT_5
 
 
 USING_STD

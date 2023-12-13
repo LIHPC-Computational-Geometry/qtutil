@@ -1,8 +1,4 @@
-#ifndef QT_5
-#include <QtGui/QApplication>
-#else	// QT_5
-#include <QtWidgets/QApplication>
-#endif	// QT_5
+#include <QApplication>
 
 #include "window.h"
 

@@ -9,15 +9,9 @@
 
 #include <QUrl>
 #include <QDesktopServices>
-#ifndef QT_5
-#include <QtGui/QBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#endif	// QT_5
 
 #include <assert.h>
 

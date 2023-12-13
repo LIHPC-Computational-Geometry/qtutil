@@ -3,11 +3,7 @@
 
 #include <TkUtil/util_config.h>
 
-#ifndef QT_5
-#include <QtGui/QLineEdit>
-#else	// QT_5
 #include <QLineEdit>
-#endif	// QT_5
 
 
 

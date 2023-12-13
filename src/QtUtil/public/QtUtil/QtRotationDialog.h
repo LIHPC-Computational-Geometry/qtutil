@@ -6,13 +6,8 @@
 #include <QtUtil/QtTextField.h>
 #include <QtUtil/QtDlgClosurePanel.h>
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QRadioButton>
-#else	// QT_5
 #include <QDialog>
 #include <QRadioButton>
-#endif	// QT_5
 
 
 /**

@@ -1,11 +1,7 @@
 #ifndef QT_ENCODING_MAIN_WINDOW_H
 #define QT_ENCODING_MAIN_WINDOW_H
 
-#ifndef QT_5
-#include <QtGui/QMainWindow>
-#else   // QT_5
-#include <QtWidgets/QMainWindow>
-#endif  // QT_5
+#include <QMainWindow>
 
 class QtEncodingMainWindow : public QMainWindow
 {
@@ -24,9 +20,7 @@ class QtEncodingMainWindow : public QMainWindow
 
 	private :
 
-#ifdef QT_4
-	QtEncodingMainWindow (const QtEncodingMainWindow&);
-#endif	// QT_4
+
 	QtEncodingMainWindow& operator = (const QtEncodingMainWindow&);
 };	// class QtEncodingMainWindow
 

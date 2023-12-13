@@ -8,11 +8,7 @@
 #ifndef QT_WIDGET_ACTION_H
 #define QT_WIDGET_ACTION_H
 
-#ifndef QT_5
-#include <QtGui/QWidgetAction>
-#else	// QT_5
 #include <QWidgetAction>
-#endif	// QT_5
 
 
 

@@ -8,11 +8,7 @@
 #ifndef QT_EXTERNAL_LINK_DIALOG_H
 #define QT_EXTERNAL_LINK_DIALOG_H
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#else	// QT_5
 #include <QDialog>
-#endif	// QT_5
 
 #include <TkUtil/UTF8String.h>
 
