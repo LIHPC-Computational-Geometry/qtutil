@@ -1,15 +1,9 @@
 #ifndef QT_GROUP_BOX_H
 #define QT_GROUP_BOX_H
 
-#ifndef QT_5
-#include <QtGui/QWidget>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLayout>
-#else	// QT_5
 #include <QWidget>
 #include <QGroupBox>
 #include <QLayout>
-#endif	// QT_5
 
 
 

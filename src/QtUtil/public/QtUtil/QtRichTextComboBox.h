@@ -1,13 +1,8 @@
 #ifndef QT_RICH_TEXT_COMBO_BOX_H
 #define QT_RICH_TEXT_COMBO_BOX_H
 
-#ifndef QT_5
-#include <QtGui/QComboBox>
-#include <QtGui/QItemDelegate>
-#else	// QT_5
 #include <QComboBox>
 #include <QItemDelegate>
-#endif	// QT_5
 
 
 /**

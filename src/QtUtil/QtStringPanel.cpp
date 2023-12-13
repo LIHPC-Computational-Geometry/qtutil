@@ -6,13 +6,9 @@
 
 #include <assert.h>
 
-#ifndef QT_5
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#else	// QT_5
 #include <QLayout>
 #include <QLabel>
-#endif	// QT_5
+
 
 USING_STD
 USING_UTIL

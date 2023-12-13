@@ -11,13 +11,8 @@
 
 #include <TkUtil/MemoryError.h>
 
-#ifndef QT_5
-#include <QtGui/QApplication>
-#include <QtGui/QAbstractButton>
-#else	// QT_5
 #include <QApplication>
 #include <QAbstractButton>
-#endif	// QT_5
 
 #include <assert.h>
 

@@ -5,15 +5,9 @@
 
 #include <QtUtil/QtIntTextField.h>
 
-#ifndef QT_5
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QCheckBox>
 #include <QComboBox>
 #include <QPushButton>
-#endif	// QT_5
 
 
 /**

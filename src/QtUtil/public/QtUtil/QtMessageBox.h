@@ -5,13 +5,8 @@
 
 #include <TkUtil/UTF8String.h>
 
-#ifndef QT_5
-#include <QtGui/QWidget>
-#include <QtGui/QMessageBox>
-#else	// QT_5
 #include <QWidget>
 #include <QMessageBox>
-#endif	// QT_5
 
 
 
@@ -171,15 +166,8 @@ class QtMessageBox
 };	// class QtMessageBox
 
 
-
-#ifndef QT_5
-#include <QtGui/QMessageBox>
-#include <QtGui/QPushButton>
-#else	// QT_5
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QPushButton>
-#endif	// QT_5
-
+#include <QMessageBox>
+#include <QPushButton>
 
 class QtMessageDialog : public QDialog
 {

@@ -102,7 +102,11 @@ void QtScientificTextDialog::createGui (bool editable)
 		getCentralLayout ( ).addWidget (_greekPanel);
 		QGridLayout*	gridLayout	= new QGridLayout (_greekPanel);
 		_greekPanel->setLayout (gridLayout);
+#ifdef QT_5
 		gridLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	gridLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 		gridLayout->setSpacing (QtConfiguration::spacing);
 		gridLayout->setSizeConstraint (QLayout::SetFixedSize);
 

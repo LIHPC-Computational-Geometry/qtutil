@@ -4,12 +4,8 @@
 
 #include <TkUtil/Exception.h>
 
-#ifndef QT_5
-#include <QtGui/QApplication>
-#else	// QT_5
 #include <QtWidgets/QApplication>
-#include <QTextCodec>
-#endif	// QT_5
+//#include <QTextCodec>
 
 
 USING_UTIL
@@ -25,18 +21,14 @@ int main (int argc, char* argv[])
 	{
 //QtValidatedTextField::automaticValidation	= false;
 cout << argv [0] << " usage :" << endl
-     << argv [0] << "[-helpLocation directory][-helpFile htmlFile]"
-     << "[-webPage url][-webTag tag]"
+     << argv [0] << "[-helpLocation directory][-helpFile htmlFile][-webPage url][-webTag tag]"
      << endl;
 cout << "VERSION DE Qt UTILISEE : "
      << hex << QT_VERSION << " (" << QT_VERSION_STR << ")" << endl;
 		parseArgs (argc, argv);
 
 		QApplication		app (argc, argv);
-		QtHelpWindow::initialize (
-			QtAboutMainWindow::homeURL, QtAboutMainWindow::indexFile,
-			"AIDE EN LIGNE", "APP TEST"
-				);
+		QtHelpWindow::initialize (QtAboutMainWindow::homeURL, QtAboutMainWindow::indexFile, "AIDE EN LIGNE", "APP TEST");
 		QtAboutMainWindow*	window	= new QtAboutMainWindow (0);
 		window->show ( );
 

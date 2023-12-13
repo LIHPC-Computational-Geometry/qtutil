@@ -1,12 +1,8 @@
 #ifndef QT_TEXT_EDITOR_H
 #define QT_TEXT_EDITOR_H
 
-#ifndef QT_5
-#include <QtGui/QPlainTextEdit>
-#else	// QT_5
-#include <QPrinter>	// requested by Qt 5.8.0
+#include <QPrinter>
 #include <QPlainTextEdit>
-#endif	// QT_5
 
 
 /**

@@ -8,11 +8,8 @@
 #ifndef QT_MULTILINE_TOOLBAR_H
 #define QT_MULTILINE_TOOLBAR_H
 
-#ifndef QT_5
-#include <QtGui/QWidgetAction>
-#else	// QT_5
+#include <QWidget>
 #include <QWidgetAction>
-#endif	// QT_5
 
 
 

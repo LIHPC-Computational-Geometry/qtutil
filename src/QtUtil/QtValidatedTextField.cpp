@@ -6,11 +6,7 @@
 
 #include <QValidator>
 #include <QKeyEvent>
-#ifndef QT_5
-#include <QtGui/QMessageBox>
-#else	// QT_5
 #include <QMessageBox>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -29,8 +25,7 @@ QColor	QtValidatedTextField::errorBackground		= Qt::white;
 QColor	QtValidatedTextField::errorForeground		= Qt::red;
 
 
-QtValidatedTextField::QtValidatedTextField (
-					QWidget* parent, bool autoValidation, const char* name)
+QtValidatedTextField::QtValidatedTextField (QWidget* parent, bool autoValidation, const char* name)
 	: QtTextField (parent, name), _autoValidation (autoValidation)
 {
 }	// QtValidatedTextField::QtValidatedTextField
@@ -43,8 +38,7 @@ QtValidatedTextField::QtValidatedTextField (const QtValidatedTextField&)
 }	// QtValidatedTextField::QtValidatedTextField (const QtValidatedTextField&)
 
 
-QtValidatedTextField& QtValidatedTextField::operator = (
-													const QtValidatedTextField&)
+QtValidatedTextField& QtValidatedTextField::operator = (const QtValidatedTextField&)
 {
 	assert (0 && "QtValidatedTextField::operator = is not allowed.");
 	return *this;
@@ -65,9 +59,21 @@ void QtValidatedTextField::focusInEvent (QFocusEvent* event)
 
 void QtValidatedTextField::focusOutEvent (QFocusEvent* event)
 {
+#ifndef QT_5	// Qt 6.6.1 : non réentrant => MessageBox qui n'a de cesse de s'afficher si saisie en erreur :(
+	static	bool	validating	= false;
+	if (false == validating)
+	{
+		validating	= true;
+#endif	// QT_5
+
 	QtTextField::focusOutEvent (event);
 	if ((true == automaticValidation) || (true == doAutoValidation ( )))
 		validate ( );
+		
+#ifndef QT_5
+	validating	= false;
+}	// if (false == validating)
+#endif	// QT_5		
 }	// QtValidatedTextField::focusOutEvent
 
 
@@ -101,24 +107,25 @@ bool QtValidatedTextField::validate ( )
 		{
 			UTF8String	errorMsg (charset);
 			errorMsg << "Valeur " << tValue.toStdString ( ) << " incorrecte.\n";
-			const QDoubleValidator*	dv	=
-									 dynamic_cast<const QDoubleValidator*>(v);
-			const QIntValidator*	iv	=
-									 dynamic_cast<const QIntValidator*>(v);
-			const QRegExpValidator*	rev	=
-									 dynamic_cast<const QRegExpValidator*>(v);
+			const QDoubleValidator*				dv	= dynamic_cast<const QDoubleValidator*>(v);
+			const QIntValidator*				iv	= dynamic_cast<const QIntValidator*>(v);
+#ifdef QT_5
+			const QRegExpValidator*				rev	= dynamic_cast<const QRegExpValidator*>(v);
+#else
+			const QRegularExpressionValidator*	rev	= dynamic_cast<const QRegularExpressionValidator*>(v);
+#endif	// QT_5
 			if (0 != dv)
-				errorMsg << "La valeur doit être comprise entre "
-				         << ios_base::fixed << IN_UTIL setprecision (2)
-				         << dv->bottom ( ) << " et " << dv->top ( ) << ".";	
+				errorMsg << "La valeur doit être comprise entre " << ios_base::fixed << IN_UTIL setprecision (2) << dv->bottom ( ) << " et " << dv->top ( ) << ".";	
 			else if (0 != iv)
-				errorMsg << "La valeur doit être comprise entre "
-				         << ios_base::fixed << IN_UTIL setprecision (2)
-				         << (long)iv->bottom ( ) << " et "
-				         << (long)iv->top ( ) << ".";	
+				errorMsg << "La valeur doit être comprise entre " << ios_base::fixed << IN_UTIL setprecision (2)  << (long)iv->bottom ( ) << " et " << (long)iv->top ( ) << ".";	
 			else if (0 != rev)
-				errorMsg << "La valeur doit être du type " 
-				         << rev->regExp ( ).pattern ( ).toStdString ( ) << ".";
+			{
+#ifdef QT_5
+				errorMsg << "La valeur doit être du type " << rev->regExp ( ).pattern ( ).toStdString ( ) << ".";
+#else
+				errorMsg << "La valeur doit être du type " << rev->regularExpression ( ).pattern ( ).toStdString ( ) << ".";
+#endif	// QT_5
+			}
 			throw Exception (errorMsg);
 		}	// if (QValidator::Acceptable != v->validate (tValue, pos))
 		setSkin (true);
@@ -127,16 +134,14 @@ bool QtValidatedTextField::validate ( )
 	{
 		setSkin (false);
 		if (true == dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", exc.getFullMessage ( ));
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", exc.getFullMessage ( ));
 		return false;
 	}
 	catch (...)
 	{
 		setSkin (false);
 		if (true == dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", "Erreur non documentée.");
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", "Erreur non documentée.");
 		return false;
 	}
 
@@ -157,10 +162,8 @@ void QtValidatedTextField::setSkin (bool normal)
 		first	= false;
 	}	// if (true == first)
 
-	p.setColor (QPalette::Active,
-		QPalette::Base, true == normal ? defaultBackground : errorBackground);
-	p.setColor (QPalette::Active,
-		QPalette::Text, true == normal ? defaultForeground : errorForeground);
+	p.setColor (QPalette::Active, QPalette::Base, true == normal ? defaultBackground : errorBackground);
+	p.setColor (QPalette::Active, QPalette::Text, true == normal ? defaultForeground : errorForeground);
 	setPalette (p);
 }	// QtValidatedTextField::setSkin
 

@@ -6,13 +6,8 @@
 #include <TkUtil/Exception.h>
 #include <TkUtil/MemoryError.h>
 
-#ifndef QT_5
-#include <QtGui/QLabel>
-#include <QtGui/QLayout>
-#else	// QT_5
 #include <QLabel>
 #include <QLayout>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -36,14 +31,22 @@ QtMatrixDialog::QtMatrixDialog (
 
 	// Creation de l'ihm :
 	QVBoxLayout*	vLayout	= new QVBoxLayout (this);
+#ifdef QT_5
 	vLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	vLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	vLayout->setSizeConstraint (QLayout::SetMinimumSize);
 
 	// Le panneau :
 	QtGroupBox*	panel	= new QtGroupBox ("Matrice de transformation", this);
 	vLayout->addWidget (panel);
 	QGridLayout*	layout	= new QGridLayout (panel);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSpacing (QtConfiguration::spacing);
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
 	panel->setLayout (layout);

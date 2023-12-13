@@ -1,11 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#ifndef QT_5
-#include <QtGui/QWidget>
-#else	// QT_5
-#include <QtWidgets/QWidget>
-#endif	// QT_5
+#include <QWidget>
 
 class Window : public QWidget
 {

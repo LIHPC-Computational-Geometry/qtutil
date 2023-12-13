@@ -5,14 +5,8 @@
 #include <TkUtil/DefaultLogOutputStream.h>
 
 #include <QTextCharFormat>
-#ifndef QT_5
-#include <QtGui/QTextEdit>
-#include <QtGui/QMenu>
-#else	// QT_5
 #include <QTextEdit>
 #include <QMenu>
-#endif	// QT_5
-
 
 
 /**

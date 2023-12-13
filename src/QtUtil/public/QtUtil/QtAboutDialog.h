@@ -1,13 +1,10 @@
 #ifndef QT_ABOUT_DIALOG_H
 #define QT_ABOUT_DIALOG_H
 
-#ifndef QT_5
-#include <QtGui/QDialog>
-#include <QtGui/QVBoxLayout>
-#else	// QT_5
+
 #include <QDialog>
 #include <QVBoxLayout>
-#endif	// QT_5
+
 #include <TkUtil/UTF8String.h>
 
 

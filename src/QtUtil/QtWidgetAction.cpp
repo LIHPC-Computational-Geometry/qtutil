@@ -6,11 +6,7 @@
 
 #include "QtUtil/QtWidgetAction.h"
 
-#ifndef QT_5
-#include <QtGui/QToolButton>
-#else	// QT_5
 #include <QToolButton>
-#endif	// QT_5
 
 #include <assert.h>
 

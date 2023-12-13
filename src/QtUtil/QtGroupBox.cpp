@@ -55,7 +55,11 @@ void QtGroupBox::setMargin (int margin)
 	QFontMetrics	metrics	= fontMetrics ( );
 	int		fontHeight	= metrics.ascent ( ) + metrics.descent ( );
 
+#ifdef QT_5
 	_layout->setMargin (margin + fontHeight);
+#else	// QT_5
+	_layout->setContentsMargins (margin + fontHeight, margin + fontHeight, margin + fontHeight, margin + fontHeight);
+#endif	// QT_5
 }	// QtGroupBox::setMargin
 
 
@@ -75,15 +79,18 @@ QSize QtGroupBox::sizeHint ( ) const
 	else
 	{
 //		getLayout ( )->activate ( );	// Risque de boucle Qt infinie.
-		int	left	= 0, right	= 0, top	= 0, bottom	= 0, framew	= 0;	
+		int	left	= 0, right	= 0, top	= 0, bottom	= 0, framew	= 0;
+#ifdef QT_5		
 		getContentsMargins (&left, &top, &right, &bottom);
-		int	marg	= left;
+		const int	marg	= left;
+#else	// QT_5
+		const int	marg	= contentsMargins ( ).left ( );
+#endif	// QT_5
+		
 
 		// On tient compte de la marge et de l'epaisseur du frame :
-		int				width	= _layout->sizeHint ( ).width ( ) + 
-								  2 * marg + 2 * framew;
-		int				height	= _layout->sizeHint ( ).height ( ) +
-								  2 * marg + 2 * framew;
+		int				width	= _layout->sizeHint ( ).width ( ) + 2 * marg + 2 * framew;
+		int				height	= _layout->sizeHint ( ).height ( ) + 2 * marg + 2 * framew;
 
 		return QSize (width, height);
 	}	// else if (0 == getLayout ( ))

@@ -49,15 +49,9 @@
 #define QT_FLOWLAYOUT_H
 
 #include <QtCore/QRect>
-#ifndef QT_5
-#include <QtGui/QLayout>
-#include <QtGui/QStyle>
-#include <QtGui/QWidgetItem>
-#else	// QT_5
 #include <QLayout>
 #include <QStyle>
 #include <QWidgetItem>
-#endif	// QT_5
 
 //! [0]
 class QtFlowLayout : public QLayout

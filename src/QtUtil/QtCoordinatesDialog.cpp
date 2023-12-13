@@ -5,17 +5,12 @@
 #include "QtUtil/QtMessageBox.h"
 
 #include <TkUtil/Exception.h>
+#include <TkUtil/NumericServices.h>
 
 #include <QValidator>
-#ifndef QT_5
-#include <QtGui/QLabel>
-#include <QtGui/QMessageBox>
-#include <QtGui/QHBoxLayout>
-#else	// QT_5
 #include <QLabel>
 #include <QMessageBox>
 #include <QHBoxLayout>
-#endif	// QT_5
 
 #include <assert.h>
 
@@ -35,7 +30,8 @@ QtCoordinatesDialog::QtCoordinatesDialog (
 	: QDialog (parent, QtConfiguration::modalDialogWFlags),
 	  _xTextField (0), _yTextField (0), _zTextField (0), _modifyXCheckBox (0), _modifyYCheckBox (0), _modifyZCheckBox (0), _closurePanel (0)
 {
-	createGui (title, xLabel, yLabel, zLabel, x, y, z, 1., -1., 1., -1., 1., -1., checkboxesEnabled, xEnabled, yEnabled, zEnabled, helpURL, helpTag);	// v 6.3.0
+//	createGui (title, xLabel, yLabel, zLabel, x, y, z, 1., -1., 1., -1., 1., -1., checkboxesEnabled, xEnabled, yEnabled, zEnabled, helpURL, helpTag);	// v 6.3.0
+	createGui (title, xLabel, yLabel, zLabel, x, y, z, checkboxesEnabled, xEnabled, yEnabled, zEnabled, -NumericServices::doubleMachMax ( ), NumericServices::doubleMachMax ( ), -NumericServices::doubleMachMax ( ), NumericServices::doubleMachMax ( ), -NumericServices::doubleMachMax ( ), NumericServices::doubleMachMax ( ), helpURL, helpTag);
 }	// QtCoordinatesDialog::QtCoordinatesDialog
 
 
@@ -61,20 +57,33 @@ void QtCoordinatesDialog::createGui (const UTF8String& title, const UTF8String& 
 
 	// Creation de l'ihm :
 	QVBoxLayout*	layout	= new QVBoxLayout (this);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
-
+	
 	// Le panneau :
 	QtGroupBox*	groupBox	= new QtGroupBox ("Composantes", this);
 	groupBox->setSpacing (QtConfiguration::spacing);
+#ifdef QT_5
 	groupBox->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	groupBox->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
+
 	layout->addWidget (groupBox);
 	QVBoxLayout*	coordsLayout	= new QVBoxLayout (groupBox);
 	groupBox->setLayout (coordsLayout);
 	// Ligne 1 : X
 	QWidget*		hbox		= new QWidget (groupBox);
 	QHBoxLayout*	hboxLayout	= new QHBoxLayout ( );
+#ifdef QT_5
 	hboxLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	hboxLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	hboxLayout->setSpacing (QtConfiguration::spacing);
 	hbox->setLayout (hboxLayout);
 	coordsLayout->addWidget (hbox);
@@ -102,7 +111,11 @@ void QtCoordinatesDialog::createGui (const UTF8String& title, const UTF8String& 
 	// Ligne 2 : Y
 	hbox		= new QWidget (groupBox);
 	hboxLayout	= new QHBoxLayout ( );
+#ifdef QT_5
 	hboxLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	hboxLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	hboxLayout->setSpacing (QtConfiguration::spacing);
 	hbox->setLayout (hboxLayout);
 	coordsLayout->addWidget (hbox);
@@ -130,7 +143,11 @@ void QtCoordinatesDialog::createGui (const UTF8String& title, const UTF8String& 
 	// Ligne 3 : Y
 	hbox		= new QWidget (groupBox);
 	hboxLayout	= new QHBoxLayout ( );
+#ifdef QT_5
 	hboxLayout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	hboxLayout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	hboxLayout->setSpacing (QtConfiguration::spacing);
 	hbox->setLayout (hboxLayout);
 	coordsLayout->addWidget (hbox);
@@ -205,6 +222,7 @@ void QtCoordinatesDialog::getCoordinates (double& x, double& y, double& z) const
 	assert (0 != _xTextField);
 	assert (0 != _yTextField);
 	assert (0 != _zTextField);
+
 	bool	xOk	= true, yOk = true, zOk = true;
 	x	= _xTextField->text ( ).toDouble (&xOk);
 	y	= _yTextField->text ( ).toDouble (&yOk);

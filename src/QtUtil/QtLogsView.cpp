@@ -5,11 +5,7 @@
 #include <TkUtil/ProcessLog.h>
 #include <TkUtil/MemoryError.h>
 
-#ifndef QT_5
-#include <QtGui/QApplication>
-#else	// QT_5
 #include <QApplication>
-#endif	// QT_5
 
 #include <assert.h>
 

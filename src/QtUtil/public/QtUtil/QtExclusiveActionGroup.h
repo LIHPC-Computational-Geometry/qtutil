@@ -4,12 +4,7 @@
 #ifndef QT_EXCLUSIVE_ACTION_GROUP_H
 #define QT_EXCLUSIVE_ACTION_GROUP_H
 
-#ifndef QT_5
-#include <QtGui/QActionGroup>
-#else	// QT_5
 #include <QActionGroup>
-#endif	// QT_5
-
 
 
 /**

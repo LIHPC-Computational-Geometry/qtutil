@@ -7,11 +7,7 @@
 #include <TkUtil/UTF8String.h>
 #include <QtUtil/QtTextDialog.h>
 
-#ifndef QT_5
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QPushButton>
-#endif	// QT_5
 
 
 class QtGreekPushButton;

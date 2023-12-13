@@ -5,11 +5,7 @@ using namespace std;
 
 #include <QThread>
 #include <QCursor>
-#ifndef QT_5
-#include <QtGui/QApplication>
-#else	// QT_5
 #include <QApplication>
-#endif	// QT_5
 
 
 QtAutoWaitingCursor::QtAutoWaitingCursor (bool s)

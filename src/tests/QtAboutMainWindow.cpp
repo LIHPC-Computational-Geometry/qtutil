@@ -22,17 +22,11 @@
 #include <TkUtil/UTF8String.h>
 #include <TkUtil/UtilInfos.h>
 
-#ifndef QT_5
-#include <QtGui/QApplication>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuBar>
-#include <QtGui/QMessageBox>
-#else	// QT_5
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QMessageBox>
-#endif	// QT_5
+
 #include "QtUtil/CharToLatinQString.h"
 
 
@@ -167,7 +161,7 @@ void QtAboutMainWindow::coordinatesCallback ( )
 	UTF8String	message (charset);
 	message << "Choix des coordonnées.";
 	static double	x = 0., y = 0., z = 0.;
-	QtCoordinatesDialog	dialog (this, "APP : Choix des coordonnées", "X", "Y", "Z", x, y, z, true, true, true, true);
+	QtCoordinatesDialog	dialog (this, UTF8String ("APP : Choix des coordonnées", charset), "X", "Y", "Z", x, y, z, true, true, true, true);
 	if (QDialog::Accepted != dialog.exec ( ))
 		return;
 
@@ -370,7 +364,11 @@ QStringListDialog::QStringListDialog (QWidget* parent, const vector <string>& un
 	setWindowTitle ("APP");
 
 	QVBoxLayout*	layout	= new QVBoxLayout (this);
+#ifdef QT_5
 	layout->setMargin (QtConfiguration::margin);
+#else	// => Qt6
+	layout->setContentsMargins (QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin, QtConfiguration::margin);
+#endif	// QT_5
 	layout->setSizeConstraint (QLayout::SetMinimumSize);
 
 	_stringListPanel	=	 new QtStringListSelectionPanel (this, unselected, selected);

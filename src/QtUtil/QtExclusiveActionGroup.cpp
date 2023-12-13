@@ -1,11 +1,7 @@
 #include "QtUtil/QtExclusiveActionGroup.h"
 #include "TkUtil/Exception.h"
 
-#ifndef QT_5
-#include <QtGui/QMenu>
-#else	// QT_5
 #include <QMenu>
-#endif	// QT_5
 
 #include <assert.h>
 

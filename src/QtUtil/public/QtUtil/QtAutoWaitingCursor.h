@@ -1,11 +1,7 @@
 #ifndef QT_AUTO_WAITING_CURSOR_H
 #define QT_AUTO_WAITING_CURSOR_H
 
-#ifndef QT_5
-#include <QtGui/QApplication>
-#else	// QT_5
 #include <QApplication>
-#endif	// QT_5
 #include <QCursor>
 
 

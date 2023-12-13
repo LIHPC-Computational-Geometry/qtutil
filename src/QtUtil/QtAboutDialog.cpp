@@ -5,17 +5,10 @@
 
 #include "QtUtil/QtUnicodeHelper.h"
 
-#ifndef QT_5
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QPushButton>
-#else	// QT_5
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
-#endif	// QT_5
 
 #include <assert.h>
 #include <iostream>
@@ -235,9 +228,11 @@ void QtAboutDialog::showEvent (QShowEvent* event)
 		connect (closeButton, SIGNAL(clicked ( )), this, SLOT(accept ( )));
 
 		setLayout (_layout);
+#ifdef QT_5
 		_layout->activate ( );
 		setFixedSize (sizeHint ( ));
 		updateGeometry ( );
+#endif	// QT_5
 	}	// if (0 == _layout)
 
 	QDialog::showEvent (event);

@@ -1,11 +1,7 @@
 #ifndef QT_STRING_NUMBER_FORMAT_COMBOBOX_H
 #define QT_STRING_NUMBER_FORMAT_COMBOBOX_H
 
-#ifndef QT_5
-#include <QtGui/QComboBox>
-#else	// QT_5
 #include <QComboBox>
-#endif	// QT_5
 
 
 /**

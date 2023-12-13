@@ -4,11 +4,7 @@
 #include <TkUtil/util_config.h>
 #include <TkUtil/DefaultLogOutputStream.h>
 
-#ifndef QT_5
-#include <QtGui/QStatusBar>
-#else	// QT_5
 #include <QStatusBar>
-#endif	// QT_5
 
 
 

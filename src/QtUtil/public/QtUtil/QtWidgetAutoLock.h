@@ -1,11 +1,8 @@
 #ifndef QT_WIDGET_AUTO_LOCK_H
 #define QT_WIDGET_AUTO_LOCK_H
 
-#ifndef QT_5
-#include <QtGui/QWidget>
-#else	// QT_5
 #include <QWidget>
-#endif	// QT_5
+
 
 
 /** Classe permettant de verrouiller un widget, par exemple un menu. Le widget

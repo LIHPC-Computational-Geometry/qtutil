@@ -4,13 +4,8 @@
 #include <TkUtil/InternalError.h>
 
 #include <QFont>
-#ifndef QT_5
-#include <QtGui/QLayout>
-#include <QtGui/QColorDialog>
-#else	// QT_5
 #include <QLayout>
 #include <QColorDialog>
-#endif	// QT_5
 
 #include <assert.h>
 

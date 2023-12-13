@@ -3,8 +3,9 @@ find_package (GUIToolkitsVariables)
 include (${CMAKE_SOURCE_DIR}/cmake/version.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/common.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/workarounds.cmake)
+include (${GUIToolkitsVariables_CMAKE_DIR}/common_qt.cmake)
 
-find_package (Qt5Widgets 5 REQUIRED NO_CMAKE_SYSTEM_PATH)
+find_package (Qt${QT_MAJOR}Widgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
 
 add_executable (encoding QtEncodingMainWindow.cpp UTF_8.cpp Iso8859_1.cpp encoding.cpp)
 set_property (TARGET encoding PROPERTY AUTOMOC ON)

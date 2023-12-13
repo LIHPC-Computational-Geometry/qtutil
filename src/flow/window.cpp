@@ -3,12 +3,7 @@
 #include "QtUtil/QtFlowLayout.h"
 #include "window.h"
 
-#include <QtGui/QtGui>
-#ifndef QT_5
-#include <QtGui/QPushButton>
-#else	// QT_5
-#include <QtWidgets/QPushButton>
-#endif	// QT_5
+#include <QPushButton>
 #include <iostream>
 
 using namespace std;
