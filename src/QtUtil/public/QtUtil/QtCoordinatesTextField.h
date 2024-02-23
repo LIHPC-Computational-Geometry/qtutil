@@ -10,8 +10,7 @@
 
 
 /**
- * Classe de champ de texte spécialisé dans la saisie de coordonnées sous la
- * forme <I>(réel, réel, réel)</I>. La notation des 3 réels peut être de type
+ * Classe de champ de texte spécialisé dans la saisie de coordonnées sous la forme <I>(réel, réel, réel)</I>. La notation des 3 réels peut être de type
  * scientifique, avec le e/E pour l'exposant.
  */
 class QtCoordinatesTextField : public QtValidatedTextField
@@ -21,8 +20,7 @@ class QtCoordinatesTextField : public QtValidatedTextField
 	/**
 	 * Constructeur. RAS.
 	 * @param	coordonnées initiales
-	 * @param	précision attendue pour chacune des composantes (et donc
-	 *			utilisée lors de l'affichage des coordonnées initiales, un
+	 * @param	précision attendue pour chacune des composantes (et donc utilisée lors de l'affichage des coordonnées initiales, un
 	 *			objectif étant de faire la ligne la plus courte possible).
 	 */
 	QtCoordinatesTextField (QWidget* parent, double x, double y, double z, unsigned short precision = 9);
@@ -44,8 +42,7 @@ class QtCoordinatesTextField : public QtValidatedTextField
 	protected :
 
 	/**
-	 * Appelé lorsque le champ perd le focus. Effectue une vérification de la
-	 * saisie en cours et affiche un message en cas d'erreur.
+	 * Appelé lorsque le champ perd le focus. Effectue une vérification de la saisie en cours et affiche un message en cas d'erreur.
 	 */
 	virtual bool validate ( );
 

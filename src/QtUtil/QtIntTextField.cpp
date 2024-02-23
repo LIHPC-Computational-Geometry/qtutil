@@ -17,16 +17,14 @@ static const Charset	charset ("àéèùô");
 USE_ENCODING_AUTODETECTION
 
 
-QtIntTextField::QtIntTextField (
-						QWidget* parent, bool autoValidation, const char* name)
+QtIntTextField::QtIntTextField (QWidget* parent, bool autoValidation, const char* name)
 	: QtValidatedTextField (parent, autoValidation, name)
 {
 	createGui ( );
 }	// QtIntTextField::QtIntTextField
 
 
-QtIntTextField::QtIntTextField (
-			int value, QWidget* parent, bool autoValidation, const char* name)
+QtIntTextField::QtIntTextField (int value, QWidget* parent, bool autoValidation, const char* name)
 	: QtValidatedTextField (parent, autoValidation, name)
 {
 	createGui ( );
@@ -67,8 +65,7 @@ int QtIntTextField::getValue ( ) const
 	int						iValue		= tValue.toInt (&ok);
 	const QIntValidator&	validator	= getValidator ( );
 
-	if ((false == ok) ||
-	    (QValidator::Acceptable != validator.validate (tValue, pos)))
+	if ((false == ok) || (QValidator::Acceptable != validator.validate (tValue, pos)))
 	{
 		UTF8String	errorMsg (charset);
 		errorMsg << "Valeur " << tValue.toStdString ( ) << " incorrecte.\n";
@@ -109,10 +106,7 @@ void QtIntTextField::setValue (int value)
 	if ((value < validator.bottom ( )) || (value > validator.top ( )))
 	{
 		UTF8String	errorMsg (charset);
-		errorMsg << "Erreur : la valeur " << (long)value
-		         << " est en dehors du domaine autorisé ("
-		         << (long)validator.bottom ( ) << " - "
-		         << (long)validator.top ( ) << ").";
+		errorMsg << "Erreur : la valeur " << (long)value << " est en dehors du domaine autorisé (" << (long)validator.bottom ( ) << " - " << (long)validator.top ( ) << ").";
 		throw Exception (errorMsg);
 	}	// if ((value < validator.bottom ( )) || (value > validator.top ( )))
 
@@ -131,13 +125,12 @@ void QtIntTextField::getRange (int& min, int& max) const
 
 void QtIntTextField::setRange (int min, int max)
 {
-	if (min >= max)
+	if (min > max)
 	{
 		UTF8String	errorMsg (charset);
-		errorMsg << "Domaine de saisie d'un réel invalide : ("
-		         << (long)min << " - " << (long)max << ").";
+		errorMsg << "Domaine de saisie d'un réel invalide : (" << (long)min << " - " << (long)max << ").";
 		throw Exception (errorMsg);
-	}	// if (min >= max)
+	}	// if (min > max)
 
 	const QIntValidator&	old	= getValidator ( );
 	QIntValidator*			v	= new QIntValidator (min, max, this);
@@ -154,8 +147,7 @@ void QtIntTextField::createGui ( )
 
 const QIntValidator& QtIntTextField::getValidator ( ) const
 {
-	const QIntValidator*	v= 
-						dynamic_cast<const QIntValidator*>(validator ( ));
+	const QIntValidator*	v	=  dynamic_cast<const QIntValidator*>(validator ( ));
 	if (0 == v)
 	{
 		INTERNAL_ERROR (exc, "Absence de validateur.", "QtIntTextField::getValidator")
@@ -177,16 +169,14 @@ bool QtIntTextField::validate ( )
 	{
 		setSkin (false);
 		if (true == QtValidatedTextField::dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", exc.getFullMessage ( ));
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", exc.getFullMessage ( ));
 		return false;
 	}
 	catch (...)
 	{
 		setSkin (false);
 		if (true == QtValidatedTextField::dialogOnError)
-			QtMessageBox::displayErrorMessage (
-							this, "Saisie invalide", "Erreur non documentée.");
+			QtMessageBox::displayErrorMessage (this, "Saisie invalide", "Erreur non documentée.");
 		return false;
 	}
 

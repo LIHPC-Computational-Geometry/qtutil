@@ -1,3 +1,9 @@
+Version 6.4.1 : 23/02/24
+===============
+
+Correctif Qt*TextField::setRange (T min, T max) : min == max accepté.
+
+
 Version 6.4.0 : 13/12/23
 ===============
 

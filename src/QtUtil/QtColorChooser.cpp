@@ -16,16 +16,14 @@ USING_UTIL
 static const Charset	charset ("àéèùô");
 USE_ENCODING_AUTODETECTION
 
-QtColorChooser::QtColorChooser (
-			QWidget* parent, const UTF8String& label, const Color& color)
+QtColorChooser::QtColorChooser (QWidget* parent, const UTF8String& label, const Color& color)
 	: QWidget (parent), _colorLabel (0)
 {
 	createGui (label, color);
 }	// QtColorChooser::QtColorChooser
 
 
-QtColorChooser::QtColorChooser (
-			QWidget* parent, const UTF8String& label, const QColor& color)
+QtColorChooser::QtColorChooser (QWidget* parent, const UTF8String& label, const QColor& color)
 	: QWidget (parent), _colorLabel (0)
 {
 	createGui (label, Color (color.red ( ), color.green ( ), color.blue ( )));
@@ -117,8 +115,7 @@ void QtColorChooser::clickedCallback ( )
 {
 	assert ((0 != _colorLabel) && "QtColorChooser::clickedCallback : null color label.");
 	const QColor	current	= getQColor ( );
-	const QColor	color	= QColorDialog::getColor (getQColor ( ), this,
-				"Nouvelle couleur", QColorDialog::DontUseNativeDialog);
+	const QColor	color	= QColorDialog::getColor (getQColor ( ), this, "Nouvelle couleur", QColorDialog::DontUseNativeDialog);
 	if (false == color.isValid ( ))
 		return;
 
