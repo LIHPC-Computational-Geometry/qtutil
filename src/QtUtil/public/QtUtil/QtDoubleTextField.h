@@ -8,12 +8,9 @@
 
 
 /**
- * <P>Editeur de texte Qt de saisie de <I>double</I>.
- * Le nombre de décimales est fixé par défaut à 8.</P>
+ * <P>Editeur de texte Qt de saisie de <I>double</I>. Le nombre de décimales est fixé par défaut à 8.</P>
  *
- * <P>A partir de la version 2.42.0 de cette bibliothèque la validation
- * automatique peut être désactivée lors de la perte de focus ou frappe d'une
- * touche.
+ * <P>A partir de la version 2.42.0 de cette bibliothèque la validation automatique peut être désactivée lors de la perte de focus ou frappe d'une touche.
  * </P>
  */
 class QtDoubleTextField : public QtValidatedTextField 
@@ -22,8 +19,7 @@ class QtDoubleTextField : public QtValidatedTextField
 
 	/** Constructeur.
 	 * @param		widget parent.
-	 * @param		<I>true</I> s'il faut procéder à une validation automatique
-	 * 				lors de la perte de focus ou d'une frappe clavier.
+	 * @param		<I>true</I> s'il faut procéder à une validation automatique lors de la perte de focus ou d'une frappe clavier.
 	 * @param		nom du widget.
 	 */
 	QtDoubleTextField (
@@ -32,21 +28,14 @@ class QtDoubleTextField : public QtValidatedTextField
 	/** Constructeur.
 	 * @param		valeur initiale.
 	 * @param		widget parent.
-	 * @param		<I>true</I> s'il faut procéder à une validation automatique
-	 * 				lors de la perte de focus ou d'une frappe clavier.
+	 * @param		<I>true</I> s'il faut procéder à une validation automatique lors de la perte de focus ou d'une frappe clavier.
 	 * @param		nom du widget.
-	 * @warning		<B>ATTENTION : transmettre les valeurs initiales non pas
-	 *				via le constructeur, mais via une méthode <I>setX</I> (ex :
-	 *				<I>setValue</I>). En effet, le validateur n'étant pas
-	 *				construit, le texte initial peut être jugé invalide pour des
-	 *				questions de formatage (nombre de décimales trop important
-	 *				par exemple). Une fois le validateur construit un appel à
-	 *				<I>setX</I> prend en compte ces aspects formatage et la
-	 *				valeur affichée est valide.</B>
+	 * @warning		<B>ATTENTION : transmettre les valeurs initiales non pas via le constructeur, mais via une méthode <I>setX</I> (ex :
+	 *				<I>setValue</I>). En effet, le validateur n'étant pas construit, le texte initial peut être jugé invalide pour des
+	 *				questions de formatage (nombre de décimales trop important par exemple). Une fois le validateur construit un appel à
+	 *				<I>setX</I> prend en compte ces aspects formatage et la valeur affichée est valide.</B>
 	 */
-	QtDoubleTextField (
-					double value, QWidget* parent, bool autoValidation = false,
-					const char* name = 0);
+	QtDoubleTextField (double value, QWidget* parent, bool autoValidation = false, const char* name = 0);
 
 	/** Destructeur.
 	 */
@@ -122,10 +111,8 @@ class QtDoubleTextField : public QtValidatedTextField
 	virtual QDoubleValidator* cloneValidator ( );
 
 	/**
-	 * Valide le contenu du champ de texte. En cas d'erreur affiche un message
-	 * d'erreur. Ne lève pas d'exception.
-	 * @return		true si le champ de texte est valide, false dans le cas
-	 *				contraire.
+	 * Valide le contenu du champ de texte. En cas d'erreur affiche un message d'erreur. Ne lève pas d'exception.
+	 * @return		true si le champ de texte est valide, false dans le cas contraire.
 	 */
 	virtual bool validate ( );
 

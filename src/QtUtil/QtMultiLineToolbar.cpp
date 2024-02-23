@@ -21,8 +21,7 @@ QtMultiLineToolbar::QtMultiLineToolbar (QWidget* parent)
 	: QWidget (parent), _iconSize (32, 32)
 {
 	setLayout (new QtFlowLayout (this));
-	QApplication*	app	=
-				dynamic_cast<QApplication*>(QApplication::instance ( ));
+	QApplication*	app	= dynamic_cast<QApplication*>(QApplication::instance ( ));
 	if ((0 != app) && (0 != app->style ( )))
 	{
 		int	size	= app->style ( )->pixelMetric (QStyle::PM_ToolBarIconSize);
@@ -68,8 +67,7 @@ void QtMultiLineToolbar::addSeparator ( )
 {
 	CHECK_NULL_PTR_ERROR (layout ( ))
 	QWidget*	separator	= new QWidget (this);
-	separator->setFixedSize (
-			QSize (iconSize ( ).width ( ) / 2, iconSize ( ).height ( ) / 2));
+	separator->setFixedSize (QSize (iconSize ( ).width ( ) / 2, iconSize ( ).height ( ) / 2));
 	layout ( )->addWidget (separator);
 }	// QtMultiLineToolbar::addSeparator
 

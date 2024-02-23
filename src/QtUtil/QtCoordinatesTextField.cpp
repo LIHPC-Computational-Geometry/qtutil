@@ -35,12 +35,9 @@ USE_ENCODING_AUTODETECTION
 // ===========================================================================
 
 /**
- * Classe de validateur de type <I>QRegExp</I> tolérant une évolution de la
- * chaîne par son milieu. Par défaut la classe <I>QRegExpValidator</I> retourne
- * <I>Intermediate</I> si les modifications sont effectuées en fin de chaîne
- * (donc chaîne incomplète), mais pas en cas d'édition en son milieu. Cette
- * classe évalue où est effectuée la modification et retourne
- * <I>Intermediate</I> si elle est valide du début à ce point.
+ * Classe de validateur de type <I>QRegExp</I> tolérant une évolution de la chaîne par son milieu. Par défaut la classe <I>QRegExpValidator</I> retourne
+ * <I>Intermediate</I> si les modifications sont effectuées en fin de chaîne (donc chaîne incomplète), mais pas en cas d'édition en son milieu. Cette
+ * classe évalue où est effectuée la modification et retourne <I>Intermediate</I> si elle est valide du début à ce point.
  */
 #ifdef QT_5
 class QtRegExpValidator : public QRegExpValidator
@@ -107,8 +104,7 @@ QtCoordinatesTextField::QtCoordinatesTextField (QWidget* parent, double x, doubl
 {
 	setCoordinates (x, y, z);
 	const string	espaces ("[ ]*");
-	const string	doubleExp (
-						"[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?");
+	const string	doubleExp ("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?");
 // Semble également OK :
 //		"[+\\-]?(?:0|[1-9]\\d*)(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?");
 	UTF8String	coordsExp;

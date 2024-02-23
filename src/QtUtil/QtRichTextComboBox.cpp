@@ -99,8 +99,7 @@ void QtRichTextComboBox::paintEvent (QPaintEvent*)
 #else	// QT_5
 	left	= contentsMargins ( ).left ( );
 #endif	// QT_5
-	// Pour une raison non élucidée un deltax est esthétiquement
-	// souhaitable (left et autres sont nuls) :
+	// Pour une raison non élucidée un deltax est esthétiquement souhaitable (left et autres sont nuls) :
 	painter.translate (left + QtConfiguration::margin, 0);
 	textDocument.drawContents (&painter, rect);
 }	// QtRichTextComboBox::paintEvent
@@ -127,9 +126,7 @@ QSize QtComboBoxItemDelegate::sizeHint (
 }	// QtComboBoxItemDelegate::sizeHint
 
 
-void QtComboBoxItemDelegate::paint (
-				QPainter* painter, const QStyleOptionViewItem& option,
-				const QModelIndex& index) const
+void QtComboBoxItemDelegate::paint (QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	painter->save ( );
 

@@ -186,9 +186,7 @@ void QtCoordinatesDialog::createGui (const UTF8String& title, const UTF8String& 
 	connect (_closurePanel->getApplyButton ( ), SIGNAL(clicked ( )), this, SLOT(accept ( )));
 	connect (_closurePanel->getCancelButton ( ), SIGNAL(clicked ( )), this, SLOT(reject ( )));
 
-	// Par defaut le bouton OK est artificellement clique par QDialog quand
-	// l'utilisateur fait return dans un champ de texte => on inhibe ce
-	// comportement par defaut :
+	// Par defaut le bouton OK est artificellement clique par QDialog quand l'utilisateur fait return dans un champ de texte => on inhibe ce comportement par defaut :
 	_closurePanel->getApplyButton ( )->setAutoDefault (false);
 	_closurePanel->getApplyButton ( )->setDefault (false);
 	_closurePanel->getCancelButton ( )->setAutoDefault (false);
@@ -258,12 +256,7 @@ void QtCoordinatesDialog::accept ( )
 		string	title	= windowTitle ( ).toStdString ( );
 		UTF8String	message (charset);
 		message << "Aucune des trois composantes ne sera modifiée. Continuer ?";
-		if (0 != QtMessageBox::displayWarningMessage (
-							this, title, message, 100,
-							"Oui", "Annuler", 0, -1))
-/*		if (0 != QMessageBox::warning (
-							this, title, message.iso ( ).c_str ( ),
-							"Oui", "Annuler", QString::null, 0, -1))*/
+		if (0 != QtMessageBox::displayWarningMessage (this, title, message, 100, "Oui", "Annuler", 0, -1))
 			return;
 	}	// if ((false == doX) && (false == doY) && (false == doZ))
 

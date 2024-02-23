@@ -8,8 +8,7 @@
 
 
 /**
- * Editeur de texte Qt offrant davantage de possibilités que la classe
- * QLineEdit.
+ * Editeur de texte Qt offrant davantage de possibilités que la classe QLineEdit.
  */
 class QtTextField : public QLineEdit 
 {
@@ -51,19 +50,15 @@ class QtTextField : public QLineEdit
 	virtual void setVisibleColumns (int count);
 
 	/**
-	 * @return		Les largeurs/hauteurs correspondant au nombre de caractères
-	 *			visibles demandés. En l'absence de demande spécifique, via
-	 *			<I>setVisibleColumns</I>, retourne <I>QLineEdit::sizeHint ( )</I>
-	 *			(ce qui correspond à une largeur d'environ 17 caractères).
-	 *			Si le champ de texte a du texte prend la taille des maxLength ( )
-	 *			premiers caractères.
+	 * @return		Les largeurs/hauteurs correspondant au nombre de caractères visibles demandés. En l'absence de demande spécifique, via
+	 *				<I>setVisibleColumns</I>, retourne <I>QLineEdit::sizeHint ( )</I> (ce qui correspond à une largeur d'environ 17 caractères).
+	 *				Si le champ de texte a du texte prend la taille des maxLength ( ) premiers caractères.
 	 * @see			isNumeric
 	 */
 	 virtual QSize sizeHint ( ) const;
 
 	/**
-	 * @return		<I>true</I> si le champ contient des valeurs numériques,
-	 *				<I>false</I> dans le cas contraire. Retourne <I>false</I>
+	 * @return		<I>true</I> si le champ contient des valeurs numériques, <I>false</I> dans le cas contraire. Retourne <I>false</I>
 	 *				par défaut, méthode à surcharger si nécessaire.
 	 * Utile pour <I>sizeHint</I>.
 	 * @see			sizeHint
