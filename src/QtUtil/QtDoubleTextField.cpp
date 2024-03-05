@@ -102,10 +102,17 @@ void QtDoubleTextField::setValue (double value)
 	}	// if ((value < validator.bottom ( )) || (value > validator.top ( )))
 
 	// On évite de perdre des epsilons avec le format d'affichage par défaut des streams c++ :
-	UTF8String	us;
-	us << (QDoubleValidator::StandardNotation == getNotation ( ) ? ios_base::fixed : ios_base::scientific);
-	us << IN_UTIL setprecision (validator.decimals ( )) << value;
-	setText (UTF8TOQSTRING (us));
+	if (_keepIosBaseDefault)
+	{
+		setText (QString::number(value));
+	}
+	else
+	{
+		UTF8String	us;
+		us << (QDoubleValidator::StandardNotation == getNotation ( ) ? ios_base::fixed : ios_base::scientific);
+		us << IN_UTIL setprecision (validator.decimals ( )) << value;
+		setText (UTF8TOQSTRING (us));
+	}
 	getValue ( );
 }	// QtDoubleTextField::setValue
 
@@ -156,8 +163,9 @@ QDoubleValidator::Notation QtDoubleTextField::getNotation (  ) const
 }	// QtDoubleTextField::getNotation
 
 
-void QtDoubleTextField::setNotation (QDoubleValidator::Notation notation)
+void QtDoubleTextField::setNotation (QDoubleValidator::Notation notation, bool keepIosBaseDefault)
 {
+	_keepIosBaseDefault = keepIosBaseDefault;
 	const QDoubleValidator&	old	= getValidator ( );
 	if (notation == old.notation ( ))
 		return;
