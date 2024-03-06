@@ -19,6 +19,7 @@ USE_ENCODING_AUTODETECTION
 
 QtDoubleTextField::QtDoubleTextField (QWidget* parent, bool autoValidation, const char* name)
 	: QtValidatedTextField (parent, autoValidation, name)
+	, _keepIosBaseDefault(false)
 {
 	createGui ( );
 }	// QtDoubleTextField::QtDoubleTextField
@@ -26,14 +27,16 @@ QtDoubleTextField::QtDoubleTextField (QWidget* parent, bool autoValidation, cons
 
 QtDoubleTextField::QtDoubleTextField (double value, QWidget* parent, bool autoValidation, const char* name)
 	: QtValidatedTextField (parent, autoValidation, name)
+	, _keepIosBaseDefault(false)
 {
 	createGui ( );
 	setValue (value);
 }	// QtDoubleTextField::QtDoubleTextField
 
 
-QtDoubleTextField::QtDoubleTextField (const QtDoubleTextField&)
+QtDoubleTextField::QtDoubleTextField (const QtDoubleTextField& field)
 	: QtValidatedTextField (0, 0)
+	, _keepIosBaseDefault(field._keepIosBaseDefault)
 {
 	assert (0 && "QtDoubleTextField::QtDoubleTextField is not allowed.");
 }	// QtDoubleTextField::QtDoubleTextField (const QtDoubleTextField&)
