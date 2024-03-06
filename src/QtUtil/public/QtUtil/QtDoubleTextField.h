@@ -90,7 +90,7 @@ class QtDoubleTextField : public QtValidatedTextField
 	/**
 	 * @param		La notation utilisée.
 	 */
-	virtual void setNotation (QDoubleValidator::Notation notation);
+	virtual void setNotation (QDoubleValidator::Notation notation, bool keepIosBaseDefault = false);
 
 
 	protected :
@@ -124,6 +124,8 @@ class QtDoubleTextField : public QtValidatedTextField
 
 	/** Opérateur de copie. Interdit. */
 	QtDoubleTextField& operator = (const QtDoubleTextField&);
+
+	bool _keepIosBaseDefault;
 };	// class QtDoubleTextField
 
 
