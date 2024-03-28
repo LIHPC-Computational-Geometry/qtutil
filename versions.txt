@@ -1,3 +1,9 @@
+Version 6.4.2 : 28/04/24
+===============
+
+Fix Issue #96 : permet l'affichage des réels avec l'encodage par défaut.
+
+
 Version 6.4.1 : 23/02/24
 ===============
 
