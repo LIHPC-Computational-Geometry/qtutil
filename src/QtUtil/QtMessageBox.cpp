@@ -2,8 +2,10 @@
 #include "QtUtil/QtUnicodeHelper.h"
 
 #include <TkUtil/Exception.h>
+#include <TkUtil/Process.h>
 
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <assert.h>
 
@@ -26,12 +28,14 @@ USE_ENCODING_AUTODETECTION
 
 
 #define BEGIN_TRY_CATCH_BLOCK                                              \
+	bool	hasError	= false;                                           \
 	try {
 
 #define COMPLETE_TRY_CATCH_BLOCK                                           \
 	}                                                                      \
 	catch (const IN_UTIL Exception& exc)                                   \
 	{                                                                      \
+		hasError	= true;                                                \
 		QMessageBox::critical (0,                                          \
 		             "ERREUR APPLICATIVE LORS DE L'AFFICHAGE D'UN MESSAGE",\
 			UTF8TOQSTRING(exc.getFullMessage( )),\
@@ -39,6 +43,7 @@ USE_ENCODING_AUTODETECTION
 	}                                                                      \
 	catch (const IN_STD exception& exc)                                    \
 	{                                                                      \
+		hasError	= true;                                                \
 		QMessageBox::critical (0,                                          \
 		             "ERREUR APPLICATIVE LORS DE L'AFFICHAGE D'UN MESSAGE",\
 			QSTR (exc.what ( )),                                   \
@@ -46,6 +51,7 @@ USE_ENCODING_AUTODETECTION
 	}                                                                      \
 	catch (...)                                                            \
 	{                                                                      \
+		hasError	= true;                                                \
 		QMessageBox::critical (0,                                          \
 		             "ERREUR APPLICATIVE LORS DE L'AFFICHAGE D'UN MESSAGE",\
 			QSTR ("Erreur non documentée"),                                \
@@ -67,8 +73,8 @@ USE_ENCODING_AUTODETECTION
 
 
 QtMessageDialog::QtMessageDialog (QMessageBox::Icon icon, QWidget* parent, const QString& title, const QString& text, int columns, const char* button1, const char* button2, const char* button3, int defaultButton)
-	: QDialog (parent)
-{	
+	: QDialog (parent), _processing (false), _parentState (true)
+{
 	setWindowTitle (title);
 
 	QVBoxLayout*	mainLayout	= new QVBoxLayout (this);
@@ -167,17 +173,38 @@ QtMessageDialog::~QtMessageDialog ( )
 }	// QtMessageDialog::~QtMessageDialog
 
 
+void QtMessageDialog::setProcessing (bool processing)	// v 6.5.0
+{
+	if (processing != _processing)
+	{
+		_processing	= processing;
+		if (0 != parentWidget ( ))
+		{
+			if (true == processing)
+			{
+				_parentState	= parentWidget ( )->isEnabled ( );
+				parentWidget ( )->setEnabled (false);
+				// L'inactivation du parent entraîne celui de la boite de dialogue, donc on la réactive :
+				setEnabled (true);
+			}
+			else if (true == _parentState)
+				parentWidget ( )->setEnabled (_parentState);
+		}
+	}	// if (processing != _processing)
+}	// QtMessageDialog::setProcessing
+
+
 void QtMessageDialog::buttonClicked ( )
 {
 	const QObject*		s	= sender ( );
 	for (int i = 0; i < 3; i++)
 		if (s == _buttons [i])
 		{
+			setProcessing (false);	// v 6.5.0
 			done (i);
 			return;
 		}	// if (s == _buttons [i])
 }	// QtMessageDialog::buttonClicked
-
 
 
 // ===========================================================================
@@ -239,6 +266,28 @@ void QtMessageBox::displayWarningMessage (QWidget* parent, const UTF8String& tit
 }	// QtMessageBox::displayWarningMessage
 
 
+void QtMessageBox::displayWarningMessageInAppWorkspace (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum)	// v 6.5.0
+{
+	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
+	const bool	security	= 0 == parent ? true : parent->isEnabled ( );
+
+	BEGIN_TRY_CATCH_BLOCK
+
+	QtMessageDialog	dialog (QMessageBox::Warning, parent, UTF8TOQSTRING (title),UTF8TOQSTRING (message), columnNum, "OK", 0, 0);
+	dialog.setProcessing (true);
+	dialog.show ( );
+	while (true == dialog.isProcessing ( ))
+		QApplication::processEvents (QEventLoop::AllEvents, 1000);
+
+	COMPLETE_TRY_CATCH_BLOCK
+	
+	if ((true == hasError) && (0 != parent) && (true == security))
+		parent->setEnabled (true);
+
+	QApplication::restoreOverrideCursor ( );
+}	// QtMessageBox::displayWarningMessageInAppWorkspace
+
+
 int QtMessageBox::displayWarningMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum, const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
 {
 	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
@@ -262,6 +311,28 @@ void QtMessageBox::displayErrorMessage (QWidget* parent, const UTF8String& title
 {
 	displayErrorMessage (parent, title, message, columnNum, "OK");
 }	// QtMessageBox::displayErrorMessage
+
+
+void QtMessageBox::displayErrorMessageInAppWorkspace (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum)	// v 6.5.0
+{
+	QApplication::setOverrideCursor (QCursor (Qt::ArrowCursor));
+	const bool	security	= 0 == parent ? true : parent->isEnabled ( );
+	
+	BEGIN_TRY_CATCH_BLOCK
+
+	QtMessageDialog	dialog (QMessageBox::Critical, parent, UTF8TOQSTRING (title), UTF8TOQSTRING (message), columnNum, "OK", 0, 0);
+	dialog.setProcessing (true);
+	dialog.show ( );
+	while (true == dialog.isProcessing ( ))
+		QApplication::processEvents (QEventLoop::AllEvents, 1000);
+
+	COMPLETE_TRY_CATCH_BLOCK
+
+	if ((true == hasError) && (0 != parent) && (true == security))
+		parent->setEnabled (true);
+	
+	QApplication::restoreOverrideCursor ( );
+}	// QtMessageBox::displayErrorMessageInAppWorkspace
 
 
 int QtMessageBox::displayErrorMessage (QWidget* parent, const UTF8String& title, const UTF8String& message, size_t columnNum, const char* button0Text, const char* button1Text, const char* button2Text, int defaultButtonNumber)
@@ -302,3 +373,39 @@ int QtMessageBox::displayQuestionMessage (QWidget* parent, const UTF8String& tit
 }	// QtMessageBox::displayQuestionMessage
 
 
+int QtMessageBox::systemNotification (const UTF8String& appTitle, const UTF8String& message, URGENCY_LEVEL level, size_t duration)	// v 6.5.0
+{
+	static bool	available	= true;
+	if (false == available)
+		return -1;
+
+	unique_ptr<Process>	notifySend (new Process ("notify-send"));
+	
+	BEGIN_TRY_CATCH_BLOCK
+	
+	notifySend->getOptions ( ).addOption ("-u");
+	switch (level)
+	{
+		case QtMessageBox::URGENCY_LOW		: notifySend->getOptions ( ).addOption ("low");		break;
+		case QtMessageBox::URGENCY_CRITICAL	: notifySend->getOptions ( ).addOption ("critical");break;
+		default								:  notifySend->getOptions ( ).addOption ("normal");
+	}	// switch (level)
+	
+	char	time [1024];
+	sprintf (time, "%lu", duration);
+	notifySend->getOptions ( ).addOption ("-t");
+	notifySend->getOptions ( ).addOption (time);
+	if (false == appTitle.empty ( ))
+	{
+		notifySend->getOptions ( ).addOption ("-a");
+		notifySend->getOptions ( ).addOption (appTitle.utf8 ( ));
+	}	// if (false == appTitle.empty ( ))
+	notifySend->getOptions ( ).addOption (message.utf8 ( ));
+	notifySend->execute (false);
+	notifySend->wait ( );
+	available	= 0 == notifySend->getCompletionCode ( ) ? true : false;
+	
+	COMPLETE_TRY_CATCH_BLOCK
+	
+	return notifySend->getCompletionCode ( );
+}	// QtMessageBox::systemNotification
