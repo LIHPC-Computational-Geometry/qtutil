@@ -1,3 +1,20 @@
+Version 6.5.0 : 16/09/24
+===============
+
+Méthodes QtMessageBox::displayWarningMessageInAppWorkspace et QtMessageBox::displayErrorMessageInAppWorkspace.
+L'objectif est que l'affichage de ces boites de dialogues ne provoque pas l'affichage de l'application dans
+un autre bureau de travail que celui initial. Ceci se produit lorsque la boite de dialogue est modale, que
+l'utilisateur a lancé une opération longue et changer de bureau pour faire autre chose, et que l'opération
+se termine par l'affichage d'une boite de dialogue. Le changement de bureau désorganise le bureau courrant
+(Issue Magix3D #112).
+
+Ces boites de dialogues désactivent la fenêtre parent (parent->setEnabled (false)) le temps de l'affichage de
+la boite de dialogue. Selon le gestionnaire de fenêtre la boite de dialogue s'ouvrira dans le bureau courrant
+ou dans le bureau initial de l'application, mais la fenêtre principale ne changera pas de bureau.
+
+Méthode QtMessageBox::systemNotification d'envoi d'un message au système de notification.
+
+
 Version 6.4.2 : 28/04/24
 ===============
 
