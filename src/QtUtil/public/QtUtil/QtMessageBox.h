@@ -3,6 +3,7 @@
 #ifndef QT_MESSAGE_BOX_H
 #define QT_MESSAGE_BOX_H
 
+#include <TkUtil/Timer.h>
 #include <TkUtil/UTF8String.h>
 
 #include <QWidget>
@@ -167,13 +168,15 @@ class QtMessageBox
 	/**
 	 * Envoie la notification système transmise en argument. Repose sur <I>notify-send</I>. Attention, les caractères accentués semblent ne pas passer.
 	 * @param	Titre de l'application
+	 * @param	(Eventuel) fichier icône de l'application
 	 * @param	Message à afficher
 	 * @param	Niveau d'urgence
 	 * @param	Durée (en millisecondes) de la notification.
 	 * @return	0 si la notification s'est bien passée, ou un code d'erreur.
-	 * @since	6.5.0
+	 * @since	6.6.0
+	 * @see		ActionCompletionNotifier
 	 */
-	static int systemNotification (const IN_UTIL UTF8String& appTitle, const IN_UTIL UTF8String& message, URGENCY_LEVEL level = URGENCY_NORMAL, size_t duration = 5000);
+	static int systemNotification (const IN_UTIL UTF8String& appTitle, const std::string& appIconFile, const IN_UTIL UTF8String& message, URGENCY_LEVEL level = URGENCY_NORMAL, size_t duration = 5000);
 	
 
 	private :
@@ -229,5 +232,46 @@ class QtMessageDialog : public QDialog
 };	// class QtMessageDialog
 
 
+/**
+ * Cette classe permet d'envoyer une notification système lorsque le destructeur est appelé, et sous réserve éventuellement
+ * qu'un certain laps de temps soit écoulé.
+ * @see	QtMessageBox::systemNotification
+ */
+class ActionCompletionNotifier
+{
+	public :
+
+	/**
+	 * Envoie la notification système transmise en argument.
+	 * @param	Titre de l'application
+	 * @param	(Eventuel) fichier icône de l'application
+	 * @param	Message à afficher
+	 * @param	Niveau d'urgence
+	 * @param	Durée (en millisecondes) de la notification.
+	 * @param	Laps de temps (en secondes) à partir duquel la notification doit être envoyée.
+	 */	
+	ActionCompletionNotifier (const IN_UTIL UTF8String& appTitle, const std::string& appIconFile, const IN_UTIL UTF8String& message, QtMessageBox::URGENCY_LEVEL level = QtMessageBox::URGENCY_NORMAL, size_t duration = 30, size_t minimumTimeLapse = 0);
+	
+	/**
+	 * Destructeur. Envoie la notification au système.
+	 */
+	 virtual ~ActionCompletionNotifier ( );
+	 
+	 
+	 private :
+	 
+	 /**
+	  * Constructeur de copie / opérateur = : interdits.
+	  */
+	  ActionCompletionNotifier (const ActionCompletionNotifier&);
+	  ActionCompletionNotifier& operator = (const ActionCompletionNotifier&);
+	  
+	  /** Informations nécessaires à la notification. */
+	  IN_UTIL Timer					_timer;
+	  IN_UTIL UTF8String			_appTitle, _message;
+	  std::string					_appIconFile;
+	  QtMessageBox::URGENCY_LEVEL	_urgencyLevel;
+	  size_t						_duration, _minimumTimeLapse;
+};	// class ActionCompletionNotifier
 
 #endif	// QT_MESSAGE_BOX_H
