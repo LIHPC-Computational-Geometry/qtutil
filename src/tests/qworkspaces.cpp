@@ -98,7 +98,7 @@ void QtWorkspacesMainWindow::timeoutWarningDialogCallback ( )
 	try
 	{
 		sleep (3);
-		QtMessageBox::systemNotification (UTF8String ("Dialogs and Workspaces"), UTF8String ("Un message d'avertissement a été affiché."), QtMessageBox::URGENCY_NORMAL, 10000);
+		QtMessageBox::systemNotification (UTF8String ("Dialogs and Workspaces"), "", UTF8String ("Un message d'avertissement a été affiché."), QtMessageBox::URGENCY_NORMAL, 10000);
 		QtMessageBox::displayWarningMessageInAppWorkspace (this, "Dialogs and Workspaces", "Ceci est un message d'avertissement");
 //		QtWSAboutDialog*	dialog	= new QtWSAboutDialog (this, "App. test", "1.0.0", "http://www.myapp.com", "Boite de dialogue affichée après un délai de 5 secondes.", 0);
 //		dialog->show ( );	// S'affiche dans le même bureau que l'application, sans changement de bureau
@@ -124,7 +124,7 @@ void QtWorkspacesMainWindow::timeoutErrorDialogCallback ( )
 	try
 	{
 		sleep (5);
-		QtMessageBox::systemNotification (UTF8String ("Dialogs and Workspaces"), UTF8String ("Un message d'erreur a été affiché."), QtMessageBox::URGENCY_CRITICAL, 3000);
+		QtMessageBox::systemNotification (UTF8String ("Dialogs and Workspaces"), "", UTF8String ("Un message d'erreur a été affiché."), QtMessageBox::URGENCY_CRITICAL, 3000);
 		QtMessageBox::displayErrorMessageInAppWorkspace (this, "Dialogs and Workspaces", "Ceci est un message d'erreur");
 //		QtWSAboutDialog*	dialog	= new QtWSAboutDialog (this, "App. test", "1.0.0", "http://www.myapp.com", "Boite de dialogue affichée après un délai de 5 secondes.", 0);
 //		dialog->show ( );	// S'affiche dans le même bureau que l'application, sans changement de bureau
