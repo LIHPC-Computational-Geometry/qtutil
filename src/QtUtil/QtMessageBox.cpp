@@ -373,7 +373,7 @@ int QtMessageBox::displayQuestionMessage (QWidget* parent, const UTF8String& tit
 }	// QtMessageBox::displayQuestionMessage
 
 
-int QtMessageBox::systemNotification (const UTF8String& appTitle, const UTF8String& message, URGENCY_LEVEL level, size_t duration)	// v 6.5.0
+int QtMessageBox::systemNotification (const UTF8String& appTitle, const string& appIconFile, const UTF8String& message, URGENCY_LEVEL level, size_t duration)	// v 6.6.0
 {
 	static bool	available	= true;
 	if (false == available)
@@ -400,6 +400,11 @@ int QtMessageBox::systemNotification (const UTF8String& appTitle, const UTF8Stri
 		notifySend->getOptions ( ).addOption ("-a");
 		notifySend->getOptions ( ).addOption (appTitle.utf8 ( ));
 	}	// if (false == appTitle.empty ( ))
+	if (false == appIconFile.empty ( ))
+	{
+		notifySend->getOptions ( ).addOption ("-i");
+		notifySend->getOptions ( ).addOption (appIconFile);
+	}	// if (false == appIconFile.empty ( ))
 	notifySend->getOptions ( ).addOption (message.utf8 ( ));
 	notifySend->execute (false);
 	notifySend->wait ( );
@@ -409,3 +414,39 @@ int QtMessageBox::systemNotification (const UTF8String& appTitle, const UTF8Stri
 	
 	return notifySend->getCompletionCode ( );
 }	// QtMessageBox::systemNotification
+
+
+// ===========================================================================
+//                    LA CLASSE ActionCompletionNotifier
+// ===========================================================================
+
+ActionCompletionNotifier::ActionCompletionNotifier (
+	const UTF8String& appTitle, const string& appIconFile, const UTF8String& message, QtMessageBox::URGENCY_LEVEL level, size_t duration, size_t minimumTimeLapse)
+	: _timer ( ), _appTitle (appTitle), _message (message), _appIconFile (appIconFile), _urgencyLevel (level), _duration (duration), _minimumTimeLapse (minimumTimeLapse)
+{
+	if (0 != _minimumTimeLapse)
+		_timer.start ( );
+}
+
+
+ActionCompletionNotifier::ActionCompletionNotifier (const ActionCompletionNotifier&)
+{
+	assert (0 && "ActionCompletionNotifier copy constructor is not allowed.");
+}	// ActionCompletionNotifier::ActionCompletionNotifier
+
+
+ActionCompletionNotifier& ActionCompletionNotifier::operator = (const ActionCompletionNotifier&)
+{
+	assert (0 && "ActionCompletionNotifier assignment operator is not allowed.");
+	return *this;
+}	// ActionCompletionNotifier::operator =
+
+
+ActionCompletionNotifier::~ActionCompletionNotifier ( )
+{
+	if (0 != _minimumTimeLapse)
+		_timer.stop ( );
+	
+	if ((0 == _minimumTimeLapse) || (_timer.duration ( ) >= _minimumTimeLapse))
+		QtMessageBox::systemNotification (_appTitle, _appIconFile, _message, _urgencyLevel, _duration);
+}	// ActionCompletionNotifier::~ActionCompletionNotifier

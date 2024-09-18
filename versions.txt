@@ -1,3 +1,11 @@
+Version 6.6.0 : 18/09/24
+===============
+
+Classe ActionCompletionNotifier permettant d'afficher automatiquement une notification en fin d'action.
+Les notifications systèmes peuvent utiliser l'icône de l'application.
+
+
+
 Version 6.5.0 : 16/09/24
 ===============
 
