@@ -1,3 +1,11 @@
+Version 6.6.1 : 29/11/24
+===============
+
+Possibité de désactiver l'affichage des notifications système en transmettant duration=0 à QtMessageBox::systemNotification.
+Ajout de précisions dans le descriptif de cette méthode : si URGENCY_CRITICAL le message est susceptible de rester affiché
+tant que l'utilisateur ne l'a pas effacé.
+
+
 Version 6.6.0 : 18/09/24
 ===============
 
