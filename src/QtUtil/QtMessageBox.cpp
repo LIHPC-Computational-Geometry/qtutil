@@ -375,6 +375,9 @@ int QtMessageBox::displayQuestionMessage (QWidget* parent, const UTF8String& tit
 
 int QtMessageBox::systemNotification (const UTF8String& appTitle, const string& appIconFile, const UTF8String& message, URGENCY_LEVEL level, size_t duration)	// v 6.6.0
 {
+	if (0 == duration)
+		return 0;
+
 	static bool	available	= true;
 	if (false == available)
 		return -1;

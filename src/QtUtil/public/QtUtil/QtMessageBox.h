@@ -170,8 +170,8 @@ class QtMessageBox
 	 * @param	Titre de l'application
 	 * @param	(Eventuel) fichier icône de l'application
 	 * @param	Message à afficher
-	 * @param	Niveau d'urgence
-	 * @param	Durée (en millisecondes) de la notification.
+	 * @param	Niveau d'urgence. <B>Attention, si CRITICAL le message est susceptible de rester affiché tant que l'utilisateur ne l'a pas effacé.</B>
+	 * @param	Durée (en millisecondes) de la notification. Il se peut qu'une durée minimale soit imposée par le système.
 	 * @return	0 si la notification s'est bien passée, ou un code d'erreur.
 	 * @since	6.6.0
 	 * @see		ActionCompletionNotifier
@@ -250,7 +250,7 @@ class ActionCompletionNotifier
 	 * @param	Durée (en millisecondes) de la notification.
 	 * @param	Laps de temps (en secondes) à partir duquel la notification doit être envoyée.
 	 */	
-	ActionCompletionNotifier (const IN_UTIL UTF8String& appTitle, const std::string& appIconFile, const IN_UTIL UTF8String& message, QtMessageBox::URGENCY_LEVEL level = QtMessageBox::URGENCY_NORMAL, size_t duration = 30, size_t minimumTimeLapse = 0);
+	ActionCompletionNotifier (const IN_UTIL UTF8String& appTitle, const std::string& appIconFile, const IN_UTIL UTF8String& message, QtMessageBox::URGENCY_LEVEL level = QtMessageBox::URGENCY_NORMAL, size_t duration = 30000, size_t minimumTimeLapse = 0);
 	
 	/**
 	 * Destructeur. Envoie la notification au système.
