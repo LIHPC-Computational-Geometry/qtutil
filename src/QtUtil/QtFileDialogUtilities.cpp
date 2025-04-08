@@ -1,7 +1,37 @@
 #include "QtUtil/QtFileDialogUtilities.h"
+#include "QtUtil/QtUnicodeHelper.h"
+#include <TkUtil/File.h>
+#include <TkUtil/UTF8String.h>
 #include <assert.h>
+#include <sstream>
 
+using namespace TkUtil;
 using namespace std;
+
+static const	Charset	charset ("àéèùô");
+USE_ENCODING_AUTODETECTION
+
+
+/**
+ * @return	La première extension du filtre Qt reçu en argument (format <I>NOM (*.ext1 *.ext2 ... *.extn)</I>.
+ */
+static string getFirstExtension (const string& filter)
+{
+	UTF8String	prepared (filter);
+	prepared.replace (string ("("), string (" "), true);	// => nom *.ext1)
+	prepared.replace (string ("*"), string (""), true);	// => nom .ext1)
+	prepared.replace (string (")"), string (""), true);	// => nom *.ext1
+	istringstream	stream (prepared.utf8 ( ));
+	string	name, ext;
+	stream >> name >> ext;
+
+
+	if ((false == stream.fail ( )) && (false == stream.bad ( )))
+		return ext;
+
+	return string ( );
+}	// getFirstExtension
+
 
 
 QtFileDialogUtilities::QtFileDialogUtilities ( )
@@ -76,3 +106,18 @@ bool QtFileDialogUtilities::extensionMatches (const string& extension, const vec
 			
 	return false;
 }	// QtFileDialogUtilities::extensionMatches
+
+
+string QtFileDialogUtilities::completeFileName (const string& path, const string& filter)
+{
+	File	file (path);
+	if (0 != file.getExtension ( ).length ( ))
+		return path;
+
+	// Le fichier n'a pas d'extension, on rajoute la première du filtre 
+	const string	ext	= getFirstExtension (filter);
+	UTF8String	newPath (charset);
+	newPath << path << ext;
+
+	return newPath.utf8 ( );	
+}	// QtFileDialogUtilities::completeFileName

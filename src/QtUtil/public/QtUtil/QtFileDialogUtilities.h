@@ -19,7 +19,7 @@ class QtFileDialogUtilities
 	static std::string extensionTail (const std::string& extension);
 
 	/**
-	 * @return	Un veteur contenant les parties terminales des extensions du filtre Qt transmis en argument.
+	 * @return	Un vecteur contenant les parties terminales des extensions du filtre Qt transmis en argument.
 	 */
 	static std::vector<std::string> nameFilterToExtensions (const QString& filters);
 
@@ -28,6 +28,14 @@ class QtFileDialogUtilities
 	 *			le vecteur transmis en second argument (comparaison non "case sensitive").
 	 */
 	static bool extensionMatches (const std::string& extension, const std::vector<std::string>& extensions);
+	
+	/**
+	 * @param	Nom de fichier proposé
+	 * @param	Filtre Qt utilisé lors du choix du fichier
+	 * @return	Le nom de fichier avec extension. Si le nom proposé n'en n'a pas alors la première du filtre est ajoutée.
+	 * @since	6.7.0
+	 */
+	static std::string completeFileName (const std::string& path, const std::string& filter);
 	
 	
 	private :
