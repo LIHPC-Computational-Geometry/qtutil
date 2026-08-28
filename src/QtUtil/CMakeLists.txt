@@ -1,12 +1,13 @@
 set (CURRENT_PACKAGE_NAME "QtUtil")
 set (CURRENT_PACKAGE_MACRO_NAME "QT_UTIL")
 
-find_package (GUIToolkitsVariables)
+find_package (GUIToolkitsVariables 1.7 REQUIRED)
 
 include (${CMAKE_SOURCE_DIR}/cmake/version.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/common.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/common_qt.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/workarounds.cmake)
+include (${GUIToolkitsVariables_CMAKE_DIR}/utilities.cmake)
 
 find_package (TkUtil 6 REQUIRED)
 find_package (Qt${QT_MAJOR}Widgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
@@ -91,6 +92,8 @@ target_link_libraries (QtUtil PUBLIC TkUtil::TkUtil ${QT_LIB_DEPENDENCIES})
 # Etre capable une fois installée de retrouver TkUtil, Qt${QT_MAJOR}*, ... :
 # (Rem : en son absence on a Set runtime path of "/tmp/pignerol/install/lib/libQtUtil.so.5.0.0" to "") ...
 set_target_properties (QtUtil PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
+separate_debug_infos (QtUtil ${CMAKE_INSTALL_PREFIX}/src)
+
 # Inefficace ici : CMAKE_AUTOMOC => dans le CMakeLists.txt racine
 #set (CMAKE_AUTOMOC ON)
 
