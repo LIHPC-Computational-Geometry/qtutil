@@ -10,8 +10,10 @@ include (${GUIToolkitsVariables_CMAKE_DIR}/workarounds.cmake)
 include (${GUIToolkitsVariables_CMAKE_DIR}/utilities.cmake)
 
 find_package (TkUtil 6 REQUIRED)
-find_package (Qt${QT_MAJOR}Widgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
-find_package (Qt${QT_MAJOR}PrintSupport ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
+find_package (Qt${QT_MAJOR}Widgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
+find_package (Qt${QT_MAJOR}PrintSupport ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
+#message (FATAL_ERROR "Qt5_DIR=${Qt5_DIR} Qt5_ROOT=${Qt5_ROOT}")
+
 #
 # Aide hypertexte avec navigateur web. Le navigateur utilisant sur le QtWebEngine qui repose sur Chromium est nettement mieux
 # que le QtTextBrowser, mais son installation est très délicate et incertaine ...
@@ -23,13 +25,13 @@ find_package (Qt${QT_MAJOR}PrintSupport ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PAT
 #
 if ((NOT USE_QT_WEB_ENGINE) AND (NOT USE_QT_WEBKIT) AND (NOT USE_QT_TEXT_BROWSER))
 	message (STATUS "--> Aide hypertexte : tentative d'utiliser QtWebEngine (meilleur) ...")
-	find_package (Qt${QT_MAJOR}WebEngineWidgets ${QT_MAJOR} NO_CMAKE_SYSTEM_PATH)
+	find_package (Qt${QT_MAJOR}WebEngineWidgets ${QT_MAJOR} NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 	if (Qt${QT_MAJOR}WebEngineWidgets_FOUND)
 		message (STATUS "--> QtWebEngine trouvé et utilisé.")
 		set (USE_QT_WEB_ENGINE ON)
 	else (Qt${QT_MAJOR}WebEngineWidgets_FOUND)
 		message (STATUS "--> QtWebEngine non trouvé : tentative d'utiliser QtWebKit en remplacement ...")
-		find_package (Qt${QT_MAJOR}WebKitWidgets NO_CMAKE_SYSTEM_PATH)
+		find_package (Qt${QT_MAJOR}WebKitWidgets NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 		if (Qt${QT_MAJOR}WebKitWidgets_FOUND)
 			message (STATUS "--> QtWebKit trouvé et utilisé.")
 			set (USE_QT_WEBKIT ON)
@@ -41,11 +43,11 @@ if ((NOT USE_QT_WEB_ENGINE) AND (NOT USE_QT_WEBKIT) AND (NOT USE_QT_TEXT_BROWSER
 endif ((NOT USE_QT_WEB_ENGINE) AND (NOT USE_QT_WEBKIT) AND (NOT USE_QT_TEXT_BROWSER))
 
 if (USE_QT_WEB_ENGINE)
-	find_package (Qt${QT_MAJOR}WebView ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
-	find_package (Qt${QT_MAJOR}WebEngineWidgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH)
+	find_package (Qt${QT_MAJOR}WebView ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
+	find_package (Qt${QT_MAJOR}WebEngineWidgets ${QT_MAJOR} REQUIRED NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 endif (USE_QT_WEB_ENGINE)
 if (USE_QT_WEBKIT)
-	find_package (Qt${QT_MAJOR}WebKitWidgets REQUIRED NO_CMAKE_SYSTEM_PATH)
+	find_package (Qt${QT_MAJOR}WebKitWidgets REQUIRED NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 endif (USE_QT_WEBKIT)
 
 file (GLOB HEADERS public/${CURRENT_PACKAGE_NAME}/*.h)
